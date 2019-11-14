@@ -26,10 +26,9 @@ var storage = multerS3({
     }
   })
   
-var upload = multer({ storage: storage }).array('image');
+var upload = multer({ storage: storage }).single('image');
 
-// router.post('/user-profile-image', passport.authenticate("jwt", { session: false }),(req, res) => {
-  router.post('/user-profile-image',(req, res) => {
+router.post('/user-profile-image', passport.authenticate("jwt", { session: false }),(req, res) => {
     console.log("Inside user profile image post Request");
 
     upload(req, res, function(err){
@@ -37,7 +36,7 @@ var upload = multer({ storage: storage }).array('image');
             res.status(500).json({message: `User Image upload failed due to internal issue. ${err}`});
             return;
         }
-        res.status(200).json({message:'User image uploaded succesfully to S3.', imageUrl: req.files}); 
+        res.status(200).json({message:'User image uploaded succesfully to S3.', imageUrl: req.file.location}); 
     });
 });
 
