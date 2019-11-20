@@ -37,7 +37,7 @@ TweetsSchema = new Schema({
     type: String,
     default: ""
   },
-  //replies is an array of object of time {createdDateAndTime, content}
+  //replies is an array of object of type {createdDateAndTime, content}
   replies: {
     type: Array,
     default: ""
