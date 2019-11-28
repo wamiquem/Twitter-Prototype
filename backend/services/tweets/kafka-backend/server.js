@@ -43,6 +43,7 @@ function handleTopicRequest(topic_name, fname) {
 
     switch (topic_name) {
       case "tweet_topics":
+        console.log("im herrrrrrrr" + topic_name);
         tweettopics.tweetsService(data.data, function(err, res) {
           response(data, res, producer);
           return;

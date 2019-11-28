@@ -13,7 +13,7 @@ TweetsSchema = new Schema({
   },
   images_path: {
     type: Array,
-    default: ""
+    default: []
   },
   liked_by: {
     type: Array,
@@ -22,7 +22,7 @@ TweetsSchema = new Schema({
   //list of all the users who have retweeted this tweet
   retweeted_by: {
     type: Array,
-    default: ""
+    default: []
   },
   //Tweet id from which this retweet was created.
   retweeted_from_id: {
@@ -31,7 +31,7 @@ TweetsSchema = new Schema({
   },
   bookmarked_by: {
     type: Array,
-    default: ""
+    default: []
   },
   created_date_time: {
     type: String,
@@ -40,7 +40,7 @@ TweetsSchema = new Schema({
   //replies is an array of object of time {createdDateAndTime, content}
   replies: {
     type: Array,
-    default: ""
+    default: []
   }
 });
 
