@@ -1,0 +1,20 @@
+{
+  "name": "kafka-backend",
+  "version": "1.0.0",
+  "description": "Kafka backend for twitter",
+  "main": "index.js",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "kafka-node": "^5.0.0",
+    "mongoose": "^5.7.12",
+    "node": "^13.1.0",
+    "nodemon": "^2.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
+  },
+  "author": "Divjot",
+  "license": "ISC"
+}
