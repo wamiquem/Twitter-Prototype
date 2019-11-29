@@ -4,7 +4,7 @@ var queries = {};
 
 queries.createUser = (user, hash, successcb, failurecb) => {
     let sql = "INSERT INTO users (email, password, fname, lname, username, image) VALUES ?";
-    const values = [user.email, hash, user.firstName, user.lastName, user.userName, user.imgUrl]
+    const values = [user.email, hash, user.fname, user.lname, user.username, 'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/default_profile_pic.jpg']
     con.query(sql, [[values]], function (err, result){
         if (err){
             failurecb(err);
@@ -15,7 +15,7 @@ queries.createUser = (user, hash, successcb, failurecb) => {
 }
 
 queries.authenticateUser = (id, successcb, failurecb) => {
-    let sql = 'SELECT * FROM users WHERE id = ?';
+    let sql = 'SELECT id, email FROM users WHERE id = ?';
     con.query(sql, [id], function (err, result){
         if (err){
             failurecb(err);
@@ -89,18 +89,32 @@ queries.updateUserProfile = (id, user, successcb, failurecb) => {
     });
 }
 
-// queries.updateUserImage = (user, successcb, failurecb) => {
-//     let sql = `UPDATE users 
-//     SET image = ?
-//     WHERE id = ?`;
-//     let values = [user.image, user.id];
-//     con.query(sql, values, function (err, result){
-//         if (err){
-//             failurecb(err);
-//             return;
-//         }
-//         successcb(result);
-//     });
-// }
+queries.getAllMatchingUsers = (username, successcb, failurecb) => {
+    let sql = `SELECT id, username, image
+    FROM users WHERE username like '%${username}%'`;
+    let values = [username];
+    
+    con.query(sql, values, function (err, result){
+        if (err){
+            failurecb(err);
+            return;
+        }
+        successcb(result);
+    });
+}
+
+queries.getSpecificUser = (id, successcb, failurecb) => {
+    let sql = `SELECT id, username, image
+    FROM users WHERE id = ?`;
+    let values = [id];
+    
+    con.query(sql, values, function (err, result){
+        if (err){
+            failurecb(err);
+            return;
+        }
+        successcb(result[0]);
+    });
+}
 
 module.exports = queries;

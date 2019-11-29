@@ -8,11 +8,11 @@ exports.signupService = function signupService(info, callback) {
 
   encrypt.generateHash(user.password, hash => {
     queries.createUser(user,hash, result => {
-      console.log("User created with id: " + result._id);
+      console.log("User created with id: " + result.insertId);
       callback(null, result);
     }, err => {
       let errorDetails = {};
-      if(err.code === 11000){
+      if(err.code === 'ER_DUP_ENTRY'){
         errorDetails.statusCode = 401;
         errorDetails.info = {success: false, message: 'Email already exists. Plz sign up with a different email id'};
       } else{

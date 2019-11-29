@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
+import conversationsReducer from './conversationsReducer';
 
 export default combineReducers({
-    // add reducers here
+    conversations: conversationsReducer
 });

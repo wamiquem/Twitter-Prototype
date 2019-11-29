@@ -16,17 +16,18 @@ function Landing() {
             <div class = "login-image">
                 <img width = '100%' height = 'auto' src={landingLeft} alt="Responsive image"></img>
             </div>
+            
             <div class = "login-links">
-                <p>See what's happening in the world right now test tes testt</p>
-                <Link to="/login">
-                <button className="btn btn-primary signup-btn">
-                    Buyer Login
-                    </button>
+                <p>See what's happening in the world right now</p>
+                <Link to="/signup">
+                <button className="signup-btn">
+                    Sign up
+                </button>
                 </Link>
                 <div className="separator"/>
                 <Link to="/login">
-                <button className="btn btn-primary login-btn">
-                    Owner Login
+                <button className="login-btn">
+                    Log in
                     </button>
                 </Link>
             </div>

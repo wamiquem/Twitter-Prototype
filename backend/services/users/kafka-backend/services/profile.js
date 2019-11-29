@@ -18,6 +18,12 @@ exports.profileService = function profileService(info, callback) {
     case "updateUserImage":
         updateUserImage(info.message, callback);
         break;
+    case "getAllMatchingUsers":
+        getAllMatchingUsers(info.message, callback);
+        break;
+    case "getSpecificUser":
+        getSpecificUser(info.message, callback);
+        break;
   }
 };
 
@@ -85,5 +91,31 @@ function updateUserImage(user, callback) {
         errorDetails.statusCode = 500;
         errorDetails.info = {success: false, message: `Something wrong when updating user image in the table. ${err}`};
         callback(errorDetails, null);
+    });
+}
+
+function getAllMatchingUsers(username, callback) {
+    console.log("Inside Kafka Backend Get All Matching Users service");
+  
+    queries.getAllMatchingUsers(username, result => {
+      callback(null, result);
+      }, err => {
+          let errorDetails = {};
+          errorDetails.statusCode = 500;
+          errorDetails.info = { success: false, message: `Something wrong when getting users from the table. ${err}` };
+          callback(errorDetails, null);
+    });
+}
+
+function getSpecificUser(id, callback) {
+    console.log("Inside Kafka Backend Get Specific User service");
+  
+    queries.getSpecificUser(id, result => {
+      callback(null, result);
+      }, err => {
+          let errorDetails = {};
+          errorDetails.statusCode = 500;
+          errorDetails.info = { success: false, message: `Something wrong when getting user from the table. ${err}` };
+          callback(errorDetails, null);
     });
 }

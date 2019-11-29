@@ -63,4 +63,32 @@ router.get('/profilePic',passport.authenticate("jwt", { session: false }),functi
     });
 });
 
+router.get('/getAllMatchingUsers',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Find All Matching User Get Request");
+    console.log("Req Query : ",req.query);
+ 
+    kafka.make_request("profile", {type: "getAllMatchingUsers", message: req.query.username},
+        function(err, result) {
+            if(result){
+                res.status(200).json({success: true, users: result});
+            }else{
+                res.status(err.statusCode).json(err.info);
+            }
+    });
+});
+
+router.get('/getSpecificUser',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Get Specific User Get Request");
+    console.log("Req Query : ",req.query);
+ 
+    kafka.make_request("profile", {type: "getSpecificUser", message: req.query.id},
+        function(err, result) {
+            if(result){
+                res.status(200).json({success: true, user: result});
+            }else{
+                res.status(err.statusCode).json(err.info);
+            }
+    });
+});
+
 module.exports = router;

@@ -1,6 +1,6 @@
 'use strict';
 var mysql = require('mysql');
-const {host, user, password, database} = require('./config/mysql_config');
+const {host, user, password, database} = require('./config/config');
 
 var con = mysql.createPool({
     connectionLimit: 100,

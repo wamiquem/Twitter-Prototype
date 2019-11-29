@@ -1,9 +1,11 @@
 import React from 'react';
 import './App.css';
+import './Sidebar.css';
 import Main from './components/Main';
 import {HashRouter} from 'react-router-dom';
 import store from './redux/store';
 import {Provider} from 'react-redux';
+import 'react-image-lightbox/style.css';
 
 function App() {
   return (

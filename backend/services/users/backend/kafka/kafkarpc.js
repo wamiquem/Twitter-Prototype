@@ -62,7 +62,7 @@ KafkaRPC.prototype.makeRequest = function(topic_name, content, callback){
 
 KafkaRPC.prototype.setupResponseQueue = function(producer,topic_name, next){
     //don't mess around if we have a queue
-    if(this.response_queue) return next();
+    if(this.response_queue) {console.log("response queue already setup");return next()};
 
     console.log('1');
 

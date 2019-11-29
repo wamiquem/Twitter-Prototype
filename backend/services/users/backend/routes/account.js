@@ -10,9 +10,11 @@ router.post('/signup',function(req,res){
 
     kafka.make_request("signup", {message: req.body},
         function(err, result) {
+            console.log("result!!!!==  ",result);
             if(result){
                 res.status(200).json({success: true, message:'User created'});
             }else{
+                console.log("errrr");
                 res.status(err.statusCode).json(err.info);
             }
     });
@@ -32,7 +34,7 @@ router.post('/login',function(req,res){
                 var token = jwt.sign(user, secret, {
                     expiresIn: 10080 // in seconds
                 });
-                res.status(200).json({success: true, message: "User Login successful", id: result.id, firstName: result.firstName, token: token});
+                res.status(200).json({success: true, message: "User Login successful", id: result.id, username: result.username, token: token});
             }else{
                 res.status(err.statusCode).json(err.info);
             }

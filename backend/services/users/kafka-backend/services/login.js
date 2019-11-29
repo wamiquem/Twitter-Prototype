@@ -10,7 +10,7 @@ exports.loginService = function loginService(info, callback) {
     if(row){
         encrypt.confirmPassword(user.password,row.password, result => {
             if (result){
-                callback(null, {id: row._id, firstName: row.fname});
+                callback(null, {id: row.id, username: row.username});
             }else{
                 let errorDetails = {};
                 errorDetails.statusCode = 401;

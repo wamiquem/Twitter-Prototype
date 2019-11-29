@@ -20,31 +20,444 @@
 }
 
 .login-links  .signup-btn {
-  background: #049ff6 none repeat scroll 0 0;
-  border-color: #049ff6;
-  color: #ffffff;
+  background-color: #049ff6;
+  border-radius: 25px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
   font-size: 14px;
+  font-weight: bold;
   width: 350px;
   height: 35px;
-  padding: 0;
-  font-weight: bold;
-  border-radius: 25px;
+  border-color: #049ff6
 }
 
 .login-links  .login-btn {
-  background: none;
-  border-color: #049ff6;
+  background-color: none;
+  border-radius: 25px;
   color: #049ff6;
+  text-align: center;
+  text-decoration: none;
   font-size: 14px;
+  font-weight: bold;
   width: 350px;
   height: 35px;
-  padding: 0;
-  font-weight: bold;
-  border-radius: 25px;
+  border-color: #049ff6
+}
+
+.login-btn:focus {
+  outline:0
+}
+
+textarea:focus,
+textarea:active {
+  outline:0px !important;
+  box-shadow: none !important
+}
+
+.signup-btn:focus {
+  outline:0
 }
 
 .login-links  .separator {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
+}
+
+.modal {
+  display: block;
+
+}
+
+.signup-modal .modal-content {
+  border-radius: 1rem;
+}
+
+.signup-modal .modal-title {
+  font-weight: 800;
+}
+
+.signup-modal .modal-header{
+  border-bottom: 0px
+}
+
+.md-form input[type=text]:not(.browser-default){
+  background-color: #f5f8fa
+}
+
+.signup-modal .modal-footer{
+  border-top: 0px;
+  justify-content: center
+}
+
+.custom-btn {
+  background-color: #049ff6;
+  border-radius: 25px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  width: 80px;
+  height: 35px;
+  border-color: #049ff6
+}
+
+.custom-btn:focus {
+  outline:0
+}
+
+.custom-btn-lg {
+  background-color: #049ff6;
+  border-radius: 25px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  width: 200px;
+  height: 35px;
+  border-color: #049ff6
+}
+
+.custom-btn-lg:focus {
+  outline:0
+}
+
+.navbar{
+  background-color: white
+}
+
+.navbar-brand{
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 13px;
+  color: #66757f;
+  font-weight: 700
+}
+
+.panel h2{ 
+  color:#444444;
+  font-size:18px;
+  margin:0 0 8px 0;
+}
+
+.panel p {
+  color:#777777;
+  font-size:14px;
+  margin-bottom:30px;
+  line-height:24px;
+}
+
+.login-form .login-form-control {
+  background: #f7f7f7 none repeat scroll 0 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 35px;
+  line-height: 35px;
+  align-content: center;
+  width: 350px
+}
+
+.login-form .form-group {
+  margin-bottom:10px;
+}
+
+.login-form{ 
+  background-color: white;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  padding-left: 100px;
+  width: 70%;
+  margin-top: 10px !important;
+  margin: 0 auto
+}
+
+.login-info{ 
+  background-color: #f5f8fa;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 100px;
+  width: 70%;
+  margin: 0 auto
+}
+
+.login-page {
+  /*To support older browsers*/
+  height: 100%;
+  width: 100%;
+
+  /* Set the height to match that of the viewport. */
+  height: 100vh;
+
+  /* Set the width to match that of the viewport. */
+  width: 100vw;
+
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: #e6ecf0 
+}
+
+.add-tweet-form .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+}
+
+.add-tweet-form .desc-textarea{
+  width: 500px;
+  height: 100px
+}
+
+.add-tweet-form .tweet-profile-image {
+  height: 50px; 
+  width: 50px;
+  /* padding-left: 10px; */
+  margin-block-end: 35px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.add-tweet-form .tweet-profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  /* margin-left: -50px; */
+}
+
+.image-upload > input
+{
+    display: none;
+}
+
+.image-upload img
+{
+    width: 50px;
+    cursor: pointer;
+    /* padding-left: 50px */
+}
+
+.vl {
+  border-left: 1px solid lightgray;
+  height: 100%;
+  position: absolute;
+  left: 71%;
+  margin-left: -3px;
+  top: 0;
+}
+
+.tweet-separator {
+  background-color: lightgray;
+  max-width: 55%;
+  padding: 5px 2px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+}
+
+.tweet-add-image {
+  padding-right: 10px;
+  height: 100px; 
+  width: auto;
+  padding-bottom: 10px
+}
+
+.tweet-add-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+}
+
+.tweets-list .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 10px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+  
+}
+
+.tweets-list .tweet-profile-image {
+  height: 50px; 
+  width: 50px;
+  /* padding-left: 10px; */
+  margin-block-end: 35px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0
+}
+
+.tweets-list .tweet-profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  /* margin-left: -50px; */
+}
+
+.twitter-icon
+{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.messages-page .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+}
+
+input[type="search"] {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif, FontAwesome;
+  border-radius: 50px;
+  width : 70%;
+  border-color: #049ff6
+}
+
+.search-people{
+  text-align: -webkit-center;
+}
+
+.fa {
+  color: #049ff6;
+}
+
+.message-separator {
+  max-width: 55%;
+  padding: 8px 2px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+}
+
+.message-box .profile-image {
+  height: 50px; 
+  width: 50px;
+  /* padding-left: 10px; */
+  margin-block-end: 35px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0
+}
+
+.message-box .profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  /* margin-left: -50px; */
+}
+
+.message-box{
+  cursor: pointer;
+  background-color: #f5f8fa;
+  border: 1px solid lightgrey
+}
+.message-box p{
+  height: 2em; 
+  line-height: 1em; 
+  overflow: hidden;
+  margin: 10px
+}
+
+.user-modal .modal-title {
+  font-weight: 800;
+}
+
+.user-modal .modal-content {
+  border-radius: 1rem;
+}
+
+.user-modal .modal-header{
+  border-bottom: 0px
+}
+
+.search-people-modal{
+  width: 100% !important;
+  padding-bottom: 5px
+}
+
+.user-box .profile-image {
+  height: 50px; 
+  width: 50px;
+  /* padding-left: 10px; */
+  margin-block-end: 35px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0
+}
+
+.user-box .profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  /* margin-left: -50px; */
+}
+
+.user-box{
+  cursor: pointer;
+  /* background-color: #f5f8fa; */
+  /* border: 1px solid lightgrey; */
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+  height: 60px;
+  padding-top: 5px;
+  /* margin-top: 5px */
+}
+.user-box p{
+  height: 2em; 
+  line-height: 1em; 
+  overflow: hidden;
+  margin: 10px
+}
+
+.message-modal .modal-title {
+  font-weight: 800;
+}
+
+.message-modal .modal-content {
+  border-radius: 1rem;
+}
+
+.msg-textarea{
+  width: 100%;
+  position: sticky;
+  bottom: 0
+}
+
+.message-modal .modal-body {
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+}
+
+.msg-text{
+  white-space: pre-wrap;
+  border-radius: 3px;
+  padding-left: 10px
+}
+
+.msg-info{
+  margin-bottom: 0;
+  font-style: italic
 }
