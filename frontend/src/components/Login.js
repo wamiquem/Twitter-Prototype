@@ -38,7 +38,6 @@ class Login extends Component {
     
     //submit Login handler to send a request to the node backend
     submitLogin = (e) => {
-        var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const data = {
@@ -57,23 +56,29 @@ class Login extends Component {
         })
         .then(res => {
             if(res.status === 200){
-                res.text().then(data => {
+                res.json().then(data => {
                     console.log(data);
-                    localStorage.setItem('id',JSON.parse(data).id);
-                    localStorage.setItem('username',JSON.parse(data).username);
-                    localStorage.setItem('token',JSON.parse(data).token);
+                    localStorage.setItem('id',data.result.id);
+                    localStorage.setItem('username',data.result.username);
+                    localStorage.setItem('token',data.token);
+                    localStorage.setItem('image',data.result.image);
+                    var leaders = []
+                    if(data.result.leaders.length>0){
+                        leaders = data.result.leaders.map(leader=> leader.leader);
+                    }
+                    leaders.push((data.result.id).toString());
+                    localStorage.setItem('tweetUsers',JSON.stringify(leaders));
                     this.setState({
                         authFlag : true,
-                        username: JSON.parse(data).firstName
+                        username: data.username
                     });
                 });
             }else{
-                res.text().then(data => {
+                res.json().then(data => {
                     console.log(data);
-                    let responseMessage = JSON.parse(data).message;
                     this.setState({
                         authFlag : false,
-                        message: responseMessage
+                        message: data.message
                     })
                 })
                 

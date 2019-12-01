@@ -26,7 +26,7 @@ queries.authenticateUser = (id, successcb, failurecb) => {
 }
 
 queries.getUserPasswordByEmail = (email, successcb, failurecb) => {
-    let sql = 'SELECT password, username, id FROM users WHERE email = ?';
+    let sql = 'SELECT password, username, id, image FROM users WHERE email = ?';
     con.query(sql, [email], function (err, row){
         if (err){
             failurecb(err);
@@ -114,6 +114,20 @@ queries.getSpecificUser = (id, successcb, failurecb) => {
             return;
         }
         successcb(result[0]);
+    });
+}
+
+queries.getAllLeaders = (follower, successcb, failurecb) => {
+    let sql = `SELECT leader
+    FROM follows WHERE follower = ?`;
+    let values = [follower];
+    
+    con.query(sql, values, function (err, result){
+        if (err){
+            failurecb(err);
+            return;
+        }
+        successcb(result);
     });
 }
 

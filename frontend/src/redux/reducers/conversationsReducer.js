@@ -58,13 +58,10 @@ const conversationsReducer = (state = initialState, action) => {
                 responseMessage: action.payload.responseMessage
             }
         case UPDATE_CONVERSATION_SUCCESS:
-        console.log("action.payload***", action.payload);
-        console.log("conversations***", state.conversations);
             var conversations = state.conversations.map(conversation => {
                 // Find an order with the matching id
                 if(conversation._id === action.payload.conversation._id){
                     //Return a new object
-                    console.log("***went insideeeeee***")
                     let conversationToUpdate = {...conversation}
                     conversationToUpdate.messages = conversationToUpdate.messages.concat(action.payload.conversation.message);
                     return conversationToUpdate;

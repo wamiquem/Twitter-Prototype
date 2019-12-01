@@ -1,31 +1,55 @@
 import React,{Component} from 'react';
-import {userUrl} from '../../config'
 import {Link} from 'react-router-dom';
 import Lightbox from 'react-image-lightbox';
 import likeIcon from '../../images/tweet-like-icon.png'
 import unlikeIcon from '../../images/tweet-unlike-icon.png'
 import retweetIcon from '../../images/tweet-rewteet-icon.png'
 import replyIcon from '../../images/tweet-reply-icon.png'
-import menuImage from '../../images/twitter-logo.png'
 import bookmarkIcon from '../../images/tweet-bookmark-icon.png'
+import deleteIcon from '../../images/tweet-delete-icon.png'
+import {connect} from 'react-redux';
+import {deleteTweet, likeTweet, unlikeTweet} from '../../redux/actions/tweetsAction';
 
-const images = [
-    'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/twitter%3A1573709844546.jpeg',
-    'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/default_profile_pic.jpg',
-    'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/twitter%3A1573709844546.jpeg',
-    'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/default_profile_pic.jpg',
-  ];
 class Tweet extends Component {
      constructor(props){
         super(props);
+        this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             photoIndex: 0,
-            isOpen: false
+            isOpen: false,
+            liked: false
         };
     }
 
     componentDidMount(){
-        
+        if(this.props.tweet.liked_by.includes(localStorage.getItem('id'))){
+            this.setState(
+                {
+                    liked: true
+                }
+            )
+        }
+    }
+
+    handleDelete = e => {
+        e.preventDefault();
+        this.props.deleteTweet(this.props.tweet._id);
+    }
+
+    handleLike = e => {
+        e.preventDefault();
+        this.props.likeTweet(this.props.tweet._id);
+        this.setState({
+            liked: !this.state.liked
+        })
+    }
+
+    handleUnlike = e => {
+        e.preventDefault();
+        this.props.unlikeTweet(this.props.tweet._id);
+        this.setState({
+            liked: !this.state.liked
+        })
     }
 
     showMessageModal = e => {
@@ -42,61 +66,79 @@ class Tweet extends Component {
 
     render(){
         const { photoIndex, isOpen } = this.state;
+        var heartIcon = (
+            <img onClick={this.handleLike} className= "twitter-icon" src={unlikeIcon}/>
+        );
+        if(this.state.liked){
+            heartIcon = (
+                <img onClick={this.handleUnlike} className= "twitter-icon" src={likeIcon}/>
+            )
+        };
+
         return(
-            <div>
+            <div className = "tweet-box">
                 <div style={{display:'flex'}}>
                     <div class = "tweet-profile-image">
                         <img className="float-left img-thumbnail" id="pic" 
-                        src = {menuImage} alt="Responsive image"></img>
+                        src = {this.props.tweet.user_image} alt="Responsive image"></img>
                     </div>
                     <div>
                         <div style={{display:'flex'}}>
-                            <Link to="/user">@username</Link>
-                            <p>{` - Date`}</p>
+                            <Link to="/user">{`@${this.props.tweet.user_username}`}</Link>
+                            <p>{` - ${this.props.tweet.created_date_time}`}</p>
+                            {this.props.tweet.user_id === localStorage.getItem('id') ? 
+                            <img onClick={this.handleDelete} style={{marginLeft:'30px'}} className= "twitter-icon" src={deleteIcon}/> :
+                            null}
                         </div>
-                        <p style={{verticalAlign: 'top'}}>username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username username </p>
+                        <p style={{verticalAlign: 'top'}}>{this.props.tweet.content}</p>
                         <div style = {{display:'flex', flexWrap:'wrap'}} onClick={() => this.setState({ isOpen: true })}>
-                            <div class="tweet-add-image">
-                                <img class="rounded float-left img-thumbnail" 
-                                src= "" alt="Responsive image"/>
-                            </div>
-                            <div class="tweet-add-image">
-                                <img class="rounded float-left img-thumbnail" 
-                                src= "" alt="Responsive image"/>
-                            </div>
-                            <div class="tweet-add-image">
-                                <img class="rounded float-left img-thumbnail" 
-                                src= "" alt="Responsive image"/>
-                            </div>
-                            <div class="tweet-add-image">
-                                <img class="rounded float-left img-thumbnail" 
-                                src= "" alt="Responsive image"/>
-                            </div>
+                            {
+                                this.props.tweet.images_path ? 
+                                this.props.tweet.images_path.map((image_path,index)=>(
+                                    <div class="tweet-add-image" key={index}>
+                                        <img class="rounded float-left img-thumbnail" 
+                                        src= {image_path} alt="Responsive image"/>
+                                    </div>
+                                ))
+                                :
+                                null
+                            }
                             {/* add image opener here */}
                         </div>
                         <div style={{display:'flex', justifyContent:'space-between', maxWidth:'90%'}}>
-                            <img className= "twitter-icon" src={likeIcon}/>
-                            {/* <img className= "twitter-icon" src={unlikeIcon}/> */}
-                            <img className= "twitter-icon" src={replyIcon}/>
-                            <img className= "twitter-icon" src={retweetIcon}/>
-                            <img className= "twitter-icon" src={bookmarkIcon}/>
+                            <div style={{display:'flex'}}>
+                                {heartIcon}
+                                <b>{this.props.tweet.liked_by.length}</b>
+                            </div>
+                            <div style={{display:'flex'}}>
+                                <img className= "twitter-icon" src={replyIcon}/>
+                                <b>{this.props.tweet.replies.length}</b>
+                            </div>
+                            <div style={{display:'flex'}}>
+                                <img className= "twitter-icon" src={retweetIcon}/>
+                                <b>{this.props.tweet.retweeted_by.length}</b>
+                            </div>
+                            <div style={{display:'flex'}}>
+                                <img className= "twitter-icon" src={bookmarkIcon}/>
+                                <b>{this.props.tweet.bookmarked_by.length}</b>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {isOpen && (
                 <Lightbox
-                    mainSrc={images[photoIndex]}
-                    nextSrc={images[(photoIndex + 1) % images.length]}
-                    prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                    mainSrc={this.props.tweet.images_path[photoIndex]}
+                    nextSrc={this.props.tweet.images_path[(photoIndex + 1) % this.props.tweet.images_path.length]}
+                    prevSrc={this.props.tweet.images_path[(photoIndex + this.props.tweet.images_path.length - 1) % this.props.tweet.images_path]}
                     onCloseRequest={() => this.setState({ isOpen: false })}
                     onMovePrevRequest={() =>
                     this.setState({
-                        photoIndex: (photoIndex + images.length - 1) % images.length,
+                        photoIndex: (photoIndex + this.props.tweet.images_path.length - 1) % this.props.tweet.images_path.length,
                     })
                     }
                     onMoveNextRequest={() =>
                     this.setState({
-                        photoIndex: (photoIndex + 1) % images.length,
+                        photoIndex: (photoIndex + 1) % this.props.tweet.images_path.length,
                     })
                     }
                 />
@@ -106,4 +148,18 @@ class Tweet extends Component {
     }
 }
 
-export default Tweet;
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteTweet: id => {dispatch(deleteTweet(id))},
+        likeTweet: id => {dispatch(likeTweet(id))},
+        unlikeTweet: id => {dispatch(unlikeTweet(id))}
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        responseMessage: state.tweets.responseMessage
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tweet);

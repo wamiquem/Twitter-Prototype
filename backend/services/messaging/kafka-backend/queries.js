@@ -4,7 +4,7 @@ const con = require('../kafka-backend/mysql_connection');
 var queries = {}
 
 queries.getConversations = (userId, successcb, failurecb) => {
-    Conversation.find({users: userId}).sort({ updated: 'asc' })
+    Conversation.find({users: userId}).sort({ updated: -1 })
     .then(conversations => successcb(conversations))
     .catch(err => failurecb(err))
 }

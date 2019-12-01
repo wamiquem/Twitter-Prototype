@@ -34,7 +34,7 @@ router.post('/login',function(req,res){
                 var token = jwt.sign(user, secret, {
                     expiresIn: 10080 // in seconds
                 });
-                res.status(200).json({success: true, message: "User Login successful", id: result.id, username: result.username, token: token});
+                res.status(200).json({success: true, message: "User Login successful", result, token:token});
             }else{
                 res.status(err.statusCode).json(err.info);
             }

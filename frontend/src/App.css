@@ -240,9 +240,14 @@ textarea:active {
 
 .image-upload img
 {
-    width: 50px;
-    cursor: pointer;
-    /* padding-left: 50px */
+    width: 25px;
+    cursor: pointer
+}
+
+.image-upload{
+  padding-right: 10px;
+  padding-bottom: 10px;
+  margin: 5px
 }
 
 .vl {
@@ -279,16 +284,18 @@ textarea:active {
 .tweets-list .main-div {
   background: #ffffff none repeat scroll 0 0;
   max-width: 55%;
-  padding: 20px 0px 10px 0px;
+  /* padding: 20px 0px 10px 0px; */
   align-content: center;
   margin-top: 0;
   margin-left: 200px;
   margin-right: 0;
-  border: 1px solid #15141436;
-  
 }
 
-.tweets-list .tweet-profile-image {
+.tweet-box {
+  border: 1px solid #15141436
+}
+
+.tweet-box .tweet-profile-image {
   height: 50px; 
   width: 50px;
   /* padding-left: 10px; */
@@ -300,7 +307,7 @@ textarea:active {
   flex-shrink: 0
 }
 
-.tweets-list .tweet-profile-image .img-thumbnail{
+.tweet-box .tweet-profile-image .img-thumbnail{
   width: auto;
   height: 100%;
   /* margin-left: -50px; */
@@ -311,6 +318,7 @@ textarea:active {
     width: 15px;
     height: 15px;
     cursor: pointer;
+    margin: 5px 
 }
 
 .messages-page .main-div {
@@ -460,4 +468,15 @@ input[type="search"] {
 .msg-info{
   margin-bottom: 0;
   font-style: italic
+}
+
+.search-section{
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 380px
+}
+
+.search-section input[type="search"] {
+  width : 100%
 }

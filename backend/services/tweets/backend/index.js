@@ -29,7 +29,7 @@ mongoose.connect(connStr, { useNewUrlParser: true, poolSize: 10 }, function(
 });
 var basePath = "/twitter";
 var tweet = require("./routes/tweet");
-//var upload = require("./routes/upload");
+var upload = require("./routes/upload");
 
 //use cors to allow cross origin resource sharing
 app.use(cors({ origin: `${frontendURL}`, credentials: true }));
@@ -53,14 +53,14 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json());
 
-app.use(basePath, tweet);
-//app.use("/upload", upload);
+app.use('/tweet', tweet);
+app.use('/upload', upload);
 
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
 //start your server on port 3101
-app.listen(3101);
-console.log("Server Listening on port 3101.");
+app.listen(3103);
+console.log("Server Listening on port 3103.");
 
 module.exports = app;

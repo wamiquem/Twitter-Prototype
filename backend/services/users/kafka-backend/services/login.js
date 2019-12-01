@@ -10,7 +10,15 @@ exports.loginService = function loginService(info, callback) {
     if(row){
         encrypt.confirmPassword(user.password,row.password, result => {
             if (result){
-                callback(null, {id: row.id, username: row.username});
+                // callback(null, {id: row.id, username: row.username, image: row.image});
+                queries.getAllLeaders(row.id, leaders=> {
+                    callback(null, {id: row.id, username: row.username, image: row.image, leaders: leaders});
+                }, err=> {
+                    let errorDetails = {};
+                    errorDetails.statusCode = 500;
+                    errorDetails.info = {success: false, message: `Something wrong when getting follow details from db. ${err}`};
+                    callback(errorDetails, null);
+                });
             }else{
                 let errorDetails = {};
                 errorDetails.statusCode = 401;

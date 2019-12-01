@@ -24,6 +24,9 @@ exports.tweetsService = function tweetsService(msg, callback) {
     case "bookmarksByTweetId":
       bookmarksByTweetId(msg, callback);
       break;
+    case "deleteTweet":
+      deleteTweet(msg, callback);
+      break;
   }
 };
 
@@ -57,7 +60,7 @@ function tweetsByUsers(msg, callback) {
   var users = [];
   users = msg.users;
   console.log("users" + users);
-  Tweets.find({ _id: { $in: users } }, function(err, tweets) {
+  Tweets.find({ user_id: { $in: users }}).sort({ created_date_time: -1 }).exec(function(err, tweets) {
     if (err) {
       console.log(err);
       console.log("unable to insert tweet");
@@ -71,10 +74,18 @@ function tweetsByUsers(msg, callback) {
 function likeTweet(msg, callback) {
   Tweets.findOne({ _id: msg.likeData.tweetId }).exec(function(err, tweet) {
     console.log("tweet" + tweet);
-    console.log("err" + err);
-    console.log("msg.likeData.likedUserId" + msg.likeData.likedUserId);
     if (tweet) {
-      tweet.liked_by.push(msg.likeData.likedUserId);
+      var count = 0;
+      for (i = 0; i < tweet.liked_by.length; i++) {
+        if (tweet.liked_by[i] == msg.likeData.likedUserId) {
+          tweet.liked_by.splice(i, 1);
+          count++;
+          break;
+        }
+      }
+      if (count === 0) {
+        tweet.liked_by.push(msg.likeData.likedUserId);
+      }
       tweet.save(function(err, tweet) {
         if (err) {
           console.log(err);
@@ -96,7 +107,18 @@ function likeTweet(msg, callback) {
 function bookmarkTweet(msg, callback) {
   Tweets.findOne({ _id: msg.bookmarkData.tweetId }).exec(function(err, tweet) {
     if (tweet) {
-      tweet.bookmarked_by.push(msg.bookmarkData.bookmarkUserId);
+      var count = 0;
+      for (i = 0; i < tweet.bookmarked_by.length; i++) {
+        if (tweet.bookmarked_by[i] == msg.bookmarkData.bookmarkUserId) {
+          tweet.bookmarked_by.splice(i, 1);
+          count++;
+          break;
+        }
+      }
+      if (count === 0) {
+        tweet.bookmarked_by.push(msg.bookmarkData.bookmarkUserId);
+      }
+
       tweet.save(function(err, tweet) {
         if (err) {
           console.log(err);
@@ -144,6 +166,22 @@ function bookmarksByTweetId(msg, callback) {
     } else {
       console.log("Bookmark data fetched" + tweet);
       callback(null, { status: 200, tweet });
+    }
+  });
+}
+
+function deleteTweet(msg, callback) {
+  Tweets.remove({ _id: msg.tweet_id }, function(
+    err,
+    tweet
+  ) {
+    if (err) {
+      console.log(err);
+      console.log("unable to delete the tweet");
+      callback(err, "Database Error");
+    } else {
+      console.log("Tweet deleted successfully");
+      callback(null, { status: 200, message: "Tweet deleted successfully"});
     }
   });
 }

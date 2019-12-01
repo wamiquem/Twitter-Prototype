@@ -7,6 +7,12 @@ TweetsSchema = new Schema({
     type: String,
     default: ""
   },
+  user_username:{
+    type: String,
+  },
+  user_image:{
+    type: String,
+  },
   content: {
     type: String,
     default: ""
@@ -37,7 +43,7 @@ TweetsSchema = new Schema({
     type: String,
     default: ""
   },
-  //replies is an array of object of time {createdDateAndTime, content}
+  //replies is an array of object of time {createdDateAndTime, content and replied user}
   replies: {
     type: Array,
     default: []

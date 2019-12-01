@@ -23,6 +23,7 @@ class Sidebar extends Component {
             )
         })
         return(
+            <div>
             <nav className="navbar navbar-inverse navbar-fixed-left sidebar-custom">
                   <div>
                     <ul class="nav navbar-nav">
@@ -40,6 +41,11 @@ class Sidebar extends Component {
                     </ul>
                   </div>
             </nav>
+            <div className="search-section" >
+                <input className="form-control" type="search" name = "username" 
+                onChange = {this.changeHandler} placeholder="&#xF002; Search for people" />
+            </div>
+          </div>
         )
     }
 }

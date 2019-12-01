@@ -10,23 +10,30 @@ var passport = require("passport");
 var requireAuth = passport.authenticate("jwt", { session: false });
 
 //insert a new tweet
-router.route("/tweet").post(function(req, res) {
-  var today = new Date();
+// router.route("/tweet").post(function(req, res) {
+  router.post('/tweet',function(req,res){
+  console.log("Inside tweet post backend request")
   var tweetData = null;
   if (req.body.retweeted_from_id) {
     //retweeted tweet insert data
     tweetData = {
-      user_id: req.body.userId,
+      user_id: req.body.user_id,
+      user_username: req.body.user_username,
+      user_image: req.body.user_image,
       content: req.body.content,
       retweeted_from_id: req.body.retweeted_from_id,
-      created_date_time: today
+      created_date_time: req.body.created_date_time,
+      images_path: req.body.images_path
     };
   } else {
     //original tweet insert data
     tweetData = {
-      user_id: req.body.userId,
+      user_id: req.body.user_id,
+      user_username: req.body.user_username,
+      user_image: req.body.user_image,
       content: req.body.content,
-      created_date_time: today
+      created_date_time: req.body.created_date_time,
+      images_path: req.body.images_path
     };
   }
 
@@ -36,12 +43,9 @@ router.route("/tweet").post(function(req, res) {
     function(err, result) {
       if (err) {
         console.log(err);
-        res.status(400).json({ responseMessage: "Unable to insert the tweet" });
+        res.status(400).json({ message: "Unable to insert the tweet" });
       } else {
-        res.writeHead(200, {
-          "content-type": "application/json"
-        });
-        res.end(JSON.stringify(result.tweet));
+        res.status(200).json({ tweet: result.tweet });
       }
     }
   );
@@ -64,7 +68,7 @@ router.route("/tweetsByUserId").get(function(req, res) {
 
 //get all tweets using an array of user ids - follows [userid] and user's userid
 router.route("/tweetsForFeed").get(function(req, res) {
-  var users = req.body.users;
+  var users = JSON.parse(req.query.users);
   kafka.make_request(
     "tweet_topics",
     { path: "tweetsByUsers", users: users },
@@ -72,7 +76,7 @@ router.route("/tweetsForFeed").get(function(req, res) {
       if (result) {
         res.status(200).json(result.tweets);
       } else {
-        res.status(400).json(err.msg);
+        res.status(400).json({message: err.msg});
       }
     }
   );
@@ -95,16 +99,10 @@ router.route("/likeTweet").post(function(req, res) {
       if (err) {
         console.log(err);
         console.log("unable to update database");
-        res.status(400).json({ responseMessage: "unable to update database" });
+        res.status(400).json({ message: "unable to update database" });
       } else {
         console.log(result);
-
-        res.writeHead(
-          200,
-
-          { "content-type": "application/json" }
-        );
-        res.end(JSON.stringify(result.tweet));
+        res.status(200).json({ message: "tweet updated successfully" });
       }
     }
   );
@@ -127,16 +125,10 @@ router.route("/bookmarkTweet").post(function(req, res) {
       if (err) {
         console.log(err);
         console.log("unable to update database");
-        res.status(400).json({ responseMessage: "unable to update database" });
+        res.status(400).json({ message: "unable to update database" });
       } else {
         console.log(result);
-
-        res.writeHead(
-          200,
-
-          { "content-type": "application/json" }
-        );
-        res.end(JSON.stringify(result.tweet));
+        res.status(200).json({ message: "tweet updated successfully" });
       }
     }
   );
@@ -168,6 +160,22 @@ router.route("/bookmarks").get(function(req, res) {
     function(err, result) {
       if (result) {
         res.status(200).json(result.tweet);
+      } else {
+        res.status(400).json(err.info);
+      }
+    }
+  );
+});
+
+//Delete a tweet by tweet id
+router.route("/delete").post(function(req, res) {
+  var tweet_id = req.query.id;
+  kafka.make_request(
+    "tweet_topics",
+    { path: "deleteTweet", tweet_id: tweet_id },
+    function(err, result) {
+      if (result) {
+        res.status(200).json({message: result.message});
       } else {
         res.status(400).json(err.info);
       }
