@@ -1,5 +1,8 @@
 import { CREATE_TWEET_SUCCESS, CREATE_TWEET_FAILED, GET_TWEETS_SUCCESS, GET_TWEETS_FAILED, DELETE_TWEET_SUCCESS,
-DELETE_TWEET_FAILED, LIKE_TWEET_SUCCESS, LIKE_TWEET_FAILED, UNLIKE_TWEET_SUCCESS} from '../actions/types';
+DELETE_TWEET_FAILED, LIKE_TWEET_SUCCESS, LIKE_TWEET_FAILED, UNLIKE_TWEET_SUCCESS, UNLIKE_TWEET_FAILED,
+BOOKMARK_TWEET_SUCCESS, BOOKMARK_TWEET_FAILED, UNBOOKMARK_TWEET_SUCCESS, UNBOOKMARK_TWEET_FAILED,
+REPLY_TWEET_SUCCESS, REPLY_TWEET_FAILED, RETWEET_TWEET_SUCCESS, RETWEET_TWEET_FAILED, UNRETWEET_TWEET_SUCCESS, 
+UNRETWEET_TWEET_FAILED} from '../actions/types';
 import {tweetUrl} from '../../config';
 
 const saveTweetImages = (data,successcb, failurecb) => {
@@ -230,7 +233,203 @@ export const unlikeTweet = id => dispatch => {
                     responseMessage: resData.message
                 }
                 dispatch({
-                    type: UNLIKE_TWEET_SUCCESS,
+                    type: UNLIKE_TWEET_FAILED,
+                    payload: payload
+                })
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+export const bookmarkTweet = id => dispatch => {
+    const data = {
+        bookmark_user_id: localStorage.getItem('id'),
+        tweet_id: id
+    }
+    fetch(`${tweetUrl}/tweet/bookmarkTweet`, {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: BOOKMARK_TWEET_SUCCESS,
+                    payload: data
+                })
+            });
+        }else{
+            res.json().then(resData => {
+                const payload = {
+                    responseMessage: resData.message
+                }
+                dispatch({
+                    type: BOOKMARK_TWEET_FAILED,
+                    payload: payload
+                })
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+export const unbookmarkTweet = id => dispatch => {
+    const data = {
+        bookmark_user_id: localStorage.getItem('id'),
+        tweet_id: id
+    }
+    fetch(`${tweetUrl}/tweet/bookmarkTweet`, {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: UNBOOKMARK_TWEET_SUCCESS,
+                    payload: data
+                })
+            });
+        }else{
+            res.json().then(resData => {
+                const payload = {
+                    responseMessage: resData.message
+                }
+                dispatch({
+                    type: UNBOOKMARK_TWEET_FAILED,
+                    payload: payload
+                })
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+export const retweetTweet = id => dispatch => {
+    const data = {
+        retweet_user_id: localStorage.getItem('id'),
+        tweet_id: id
+    }
+    fetch(`${tweetUrl}/tweet/retweetTweet`, {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: RETWEET_TWEET_SUCCESS,
+                    payload: data
+                })
+            });
+        }else{
+            res.json().then(resData => {
+                const payload = {
+                    responseMessage: resData.message
+                }
+                dispatch({
+                    type: RETWEET_TWEET_FAILED,
+                    payload: payload
+                })
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+export const unretweetTweet = id => dispatch => {
+    const data = {
+        retweet_user_id: localStorage.getItem('id'),
+        tweet_id: id
+    }
+    fetch(`${tweetUrl}/tweet/retweetTweet`, {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: UNRETWEET_TWEET_SUCCESS,
+                    payload: data
+                })
+            });
+        }else{
+            res.json().then(resData => {
+                const payload = {
+                    responseMessage: resData.message
+                }
+                dispatch({
+                    type: UNRETWEET_TWEET_FAILED,
+                    payload: payload
+                })
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+export const replyTweet = data => dispatch => {
+    fetch(`${tweetUrl}/tweet/reply`, {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: REPLY_TWEET_SUCCESS,
+                    payload: data
+                })
+            });
+        }else{
+            res.json().then(resData => {
+                const payload = {
+                    responseMessage: resData.message
+                }
+                dispatch({
+                    type: REPLY_TWEET_FAILED,
                     payload: payload
                 })
             }) 

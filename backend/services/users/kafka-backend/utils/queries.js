@@ -3,8 +3,9 @@ const con = require('../../kafka-backend/mysql_connection');
 var queries = {};
 
 queries.createUser = (user, hash, successcb, failurecb) => {
-    let sql = "INSERT INTO users (email, password, fname, lname, username, image) VALUES ?";
-    const values = [user.email, hash, user.fname, user.lname, user.username, 'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/default_profile_pic.jpg']
+    let sql = "INSERT INTO users (email, password, fname, lname, username, phone, image, added_date) VALUES ?";
+    const values = [user.email, hash, user.fname, user.lname, user.username, user.phone, 
+        'https://twitter-prototype-project.s3-us-west-1.amazonaws.com/default_profile_pic.jpg', new Date().toLocaleString()]
     con.query(sql, [[values]], function (err, result){
         if (err){
             failurecb(err);
@@ -61,7 +62,7 @@ queries.getUserImageNameById = (id, successcb, failurecb) => {
 }
 
 queries.getUserDetailsById = (id, successcb, failurecb) => {
-    let sql = `SELECT fname, lname, phone, email, username, bio, city, state, zip
+    let sql = `SELECT fname, lname, phone, email, username, bio, city, state, zip_code, image, added_date
     FROM users WHERE id = ?`;
 
     con.query(sql, [id], function (err, row){
@@ -73,12 +74,12 @@ queries.getUserDetailsById = (id, successcb, failurecb) => {
     });
 }
 
-queries.updateUserProfile = (id, user, successcb, failurecb) => {
+queries.updateUserProfile = (user, successcb, failurecb) => {
     let sql = `UPDATE users 
-    SET fname =?, lname =?, phone = ?, username = ?, bio = ?, city = ?, state = ?, zip = ?, image = ?
+    SET fname =?, lname =?, phone = ?, username = ?, bio = ?, city = ?, state = ?, zip_code = ?, image = ?
     WHERE id = ?`;
     let values = [user.fname, user.lname, user.phone, user.username, user.bio, 
-        user.city, user.state, user.zip, user.imageUrl, id];
+        user.city, user.state, user.zip, user.imageUrl, user.id];
     
     con.query(sql, values, function (err, result){
         if (err){
@@ -118,7 +119,7 @@ queries.getSpecificUser = (id, successcb, failurecb) => {
 }
 
 queries.getAllLeaders = (follower, successcb, failurecb) => {
-    let sql = `SELECT leader
+    let sql = `SELECT leader, leader_username
     FROM follows WHERE follower = ?`;
     let values = [follower];
     

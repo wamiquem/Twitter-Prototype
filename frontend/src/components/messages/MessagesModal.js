@@ -48,7 +48,6 @@ class MessagesModal extends Component {
         //prevent page from refresh
         e.preventDefault();
         if(this.props.conversation._id){
-            console.log("****in if****")
             var conversation = {
                 _id: this.props.conversation._id,
                 message: {
@@ -59,7 +58,6 @@ class MessagesModal extends Component {
             }
             this.props.updateConversation(conversation);
         } else {
-            console.log("****in else****")
             var conversation = {
                 users: this.props.conversation.users,
                 message: {
@@ -76,7 +74,6 @@ class MessagesModal extends Component {
     }
     
     render(){
-        console.log("this.props.conversation message modal*****=====", this.props.conversation);
         return (
             <div className="modal message-modal" data-backdrop="false">
               <div className="modal-dialog modal-dialog-centered">

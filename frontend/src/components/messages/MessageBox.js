@@ -72,8 +72,13 @@ class MessageBox extends Component {
                         <img className="float-left img-thumbnail" id="pic" 
                         src = {this.state.image} alt="Responsive image"></img>
                     </div>
-                    <p>{`@${this.state.username}`}</p>   
-                    <p style={{marginLeft: 'auto'}}>{this.props.conversation.updated}</p>          
+                    <div>
+                        <div style={{display:'flex'}}>
+                            <p>{`@${this.state.username}`}</p>   
+                            <p style={{marginLeft: 'auto'}}>{this.props.conversation.updated}</p>   
+                        </div>   
+                        <p>{this.props.conversation.messages[this.props.conversation.messages.length-1].text}</p>
+                    </div>   
                 </div>
                 {this.state.showMessageModal ? <MessagesModal 
                 conversation = {this.props.conversation}

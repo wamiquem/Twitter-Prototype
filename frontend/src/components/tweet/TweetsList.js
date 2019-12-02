@@ -10,7 +10,7 @@ function TweetsList(props) {
                         {
                             props.tweets.map(tweet => (
                                 <Tweet tweet={tweet} key={tweet._id}/>
-                            )
+                                )
                             )
                         }
                     </div>

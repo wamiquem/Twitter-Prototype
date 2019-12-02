@@ -10,7 +10,8 @@ class TweetAddForm extends Component {
             content: "",
             images: [],
             imagesUrl: [],
-            message: ""
+            message: "",
+            usedCharacters: 0
         }
         //Bind the handlers to this class
         this.changeHandler = this.changeHandler.bind(this);
@@ -83,8 +84,10 @@ class TweetAddForm extends Component {
 
     //input change handler to update state variable with the text entered by the user
     changeHandler(e) {
+        var input = e.target.value;
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value,
+            usedCharacters: input.length
         })
     }
 
@@ -102,7 +105,8 @@ class TweetAddForm extends Component {
         this.setState({
             content: "",
             images: [],
-            imagesUrl: []
+            imagesUrl: [],
+            usedCharacters: 0
         })
     }
 
@@ -124,9 +128,10 @@ class TweetAddForm extends Component {
                                     <form onSubmit = {this.submitTweet} >
                                         <div style={{paddingBottom:'10px', paddingLeft:'10px'}}>
                                             <textarea required autoFocus class="form-control desc-textarea" style={{borderColor:'white'}}
-                                            rows="3" name="content" onChange = {this.changeHandler}
+                                            rows="3" name="content" onChange = {this.changeHandler} maxlength="280"
                                             value = {this.state.content} placeholder="What's happening?"/>
                                         </div>
+                                        <b style={{float: 'right'}}>{this.state.usedCharacters}/280</b>
                                         <div style={{display:'flex'}}>
                                             <div class="image-upload">
                                                 <label htmlFor="upload">

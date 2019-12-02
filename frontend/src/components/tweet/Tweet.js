@@ -3,32 +3,97 @@ import {Link} from 'react-router-dom';
 import Lightbox from 'react-image-lightbox';
 import likeIcon from '../../images/tweet-like-icon.png'
 import unlikeIcon from '../../images/tweet-unlike-icon.png'
-import retweetIcon from '../../images/tweet-rewteet-icon.png'
+import retweetIcon from '../../images/tweet-retweet-icon.png'
+import unretweetIcon from '../../images/tweet-untweet-icon.png'
 import replyIcon from '../../images/tweet-reply-icon.png'
 import bookmarkIcon from '../../images/tweet-bookmark-icon.png'
+import unbookmarkIcon from '../../images/tweet-unbookmark-icon.png'
 import deleteIcon from '../../images/tweet-delete-icon.png'
 import {connect} from 'react-redux';
-import {deleteTweet, likeTweet, unlikeTweet} from '../../redux/actions/tweetsAction';
+import RepliesModal from './RepliesModal';
+import {deleteTweet, likeTweet, unlikeTweet, bookmarkTweet, unbookmarkTweet, retweetTweet, unretweetTweet} 
+from '../../redux/actions/tweetsAction';
+import ReplyBox from './ReplyBox';
 
 class Tweet extends Component {
      constructor(props){
         super(props);
         this.handleDelete = this.handleDelete.bind(this);
+        this.showReplyModal = this.showReplyModal.bind(this);
+        this.hideReplyModal = this.hideReplyModal.bind(this);
         this.state = {
             photoIndex: 0,
             isOpen: false,
-            liked: false
+            liked: false,
+            bookmarked: false,
+            showReplyModal: false,
+            retweetText: "",
+            retweeted: false
         };
     }
 
     componentDidMount(){
-        if(this.props.tweet.liked_by.includes(localStorage.getItem('id'))){
+        const id = localStorage.getItem('id');
+        if(this.props.tweet.liked_by.includes(id)){
             this.setState(
                 {
                     liked: true
                 }
             )
         }
+        if(this.props.tweet.bookmarked_by.includes(id)){
+            this.setState(
+                {
+                    bookmarked: true
+                }
+            )
+        }
+        if(this.props.tweet.retweeted_by.includes(id)){
+            this.setState(
+                {
+                    retweeted: true
+                }
+            )
+        }
+        if(this.props.tweet.retweeted_by.length>0){
+            const tweetUsers = JSON.parse(localStorage.getItem('tweetUsers'));
+            var retweetLeaders = tweetUsers.filter(user=> this.props.tweet.retweeted_by.includes(user));
+            if(retweetLeaders.length >0 && retweetLeaders.length === 1){
+                if(retweetLeaders[0]!= localStorage.getItem('id')){
+                    var leaderUsername = JSON.parse(localStorage.getItem('tweetUsersDetails'))[retweetLeaders[0]]
+                    this.setState(
+                        {
+                            retweetText: `Retweeted by @${leaderUsername}`
+                        }
+                    )
+                }else{
+                    this.setState(
+                        {
+                            retweetText: `Retweeted by you`
+                        }
+                    )
+                }
+            } else if(retweetLeaders.length > 1){
+                this.setState(
+                    {
+                        retweetText: `Retweeted by multiple following users`
+                    }
+                )
+            }
+        }
+
+    }
+
+    showReplyModal = e => {
+        this.setState({
+            showReplyModal: true
+        });
+    }
+
+    hideReplyModal = e => {
+        this.setState({
+            showReplyModal: false
+        });
     }
 
     handleDelete = e => {
@@ -52,6 +117,38 @@ class Tweet extends Component {
         })
     }
 
+    handleBookmark = e => {
+        e.preventDefault();
+        this.props.bookmarkTweet(this.props.tweet._id);
+        this.setState({
+            bookmarked: !this.state.bookmarked
+        })
+    }
+
+    handleUnbookmark = e => {
+        e.preventDefault();
+        this.props.unbookmarkTweet(this.props.tweet._id);
+        this.setState({
+            bookmarked: !this.state.bookmarked
+        })
+    }
+
+    handleRetweet = e => {
+        e.preventDefault();
+        this.props.retweetTweet(this.props.tweet._id);
+        this.setState({
+            retweeted: !this.state.retweeted
+        })
+    }
+
+    handleUnretweet = e => {
+        e.preventDefault();
+        this.props.unretweetTweet(this.props.tweet._id);
+        this.setState({
+            retweeted: !this.state.retweeted
+        })
+    }
+
     showMessageModal = e => {
         this.setState({
             showMessageModal: true
@@ -66,17 +163,36 @@ class Tweet extends Component {
 
     render(){
         const { photoIndex, isOpen } = this.state;
-        var heartIcon = (
+        var likedIcon = (
             <img onClick={this.handleLike} className= "twitter-icon" src={unlikeIcon}/>
         );
         if(this.state.liked){
-            heartIcon = (
+            likedIcon = (
                 <img onClick={this.handleUnlike} className= "twitter-icon" src={likeIcon}/>
+            )
+        };
+
+        var bookmarkedIcon = (
+            <img onClick={this.handleBookmark} className= "twitter-icon" src={unbookmarkIcon}/>
+        );
+        if(this.state.bookmarked){
+            bookmarkedIcon = (
+                <img onClick={this.handleUnbookmark} className= "twitter-icon" src={bookmarkIcon}/>
+            )
+        };
+
+        var retweetedIcon = (
+            <img onClick={this.handleRetweet} className= "twitter-icon" src={unretweetIcon}/>
+        );
+        if(this.state.retweeted){
+            retweetedIcon = (
+                <img onClick={this.handleUnretweet} className= "twitter-icon" src={retweetIcon}/>
             )
         };
 
         return(
             <div className = "tweet-box">
+                <p>{this.state.retweetText}</p>
                 <div style={{display:'flex'}}>
                     <div class = "tweet-profile-image">
                         <img className="float-left img-thumbnail" id="pic" 
@@ -84,7 +200,7 @@ class Tweet extends Component {
                     </div>
                     <div>
                         <div style={{display:'flex'}}>
-                            <Link to="/user">{`@${this.props.tweet.user_username}`}</Link>
+                            <Link to={`/user/${this.props.tweet.user_id}`}>{`@${this.props.tweet.user_username}`}</Link>
                             <p>{` - ${this.props.tweet.created_date_time}`}</p>
                             {this.props.tweet.user_id === localStorage.getItem('id') ? 
                             <img onClick={this.handleDelete} style={{marginLeft:'30px'}} className= "twitter-icon" src={deleteIcon}/> :
@@ -107,24 +223,33 @@ class Tweet extends Component {
                         </div>
                         <div style={{display:'flex', justifyContent:'space-between', maxWidth:'90%'}}>
                             <div style={{display:'flex'}}>
-                                {heartIcon}
+                                {likedIcon}
                                 <b>{this.props.tweet.liked_by.length}</b>
                             </div>
                             <div style={{display:'flex'}}>
-                                <img className= "twitter-icon" src={replyIcon}/>
+                                <img onClick={this.showReplyModal} className= "twitter-icon" src={replyIcon}/>
                                 <b>{this.props.tweet.replies.length}</b>
                             </div>
                             <div style={{display:'flex'}}>
-                                <img className= "twitter-icon" src={retweetIcon}/>
+                                {retweetedIcon}
                                 <b>{this.props.tweet.retweeted_by.length}</b>
                             </div>
                             <div style={{display:'flex'}}>
-                                <img className= "twitter-icon" src={bookmarkIcon}/>
+                                {bookmarkedIcon}
                                 <b>{this.props.tweet.bookmarked_by.length}</b>
                             </div>
                         </div>
                     </div>
                 </div>
+                {
+                    this.props.tweet.replies ? 
+                    this.props.tweet.replies.filter(reply=> reply.user_id === localStorage.getItem('id'))
+                    .map(reply =>(
+                        <ReplyBox key={reply.user_id} reply={reply}/>
+                    ))
+                    :
+                    null
+                }
                 {isOpen && (
                 <Lightbox
                     mainSrc={this.props.tweet.images_path[photoIndex]}
@@ -143,6 +268,9 @@ class Tweet extends Component {
                     }
                 />
                 )}
+                {this.state.showReplyModal ? <RepliesModal 
+                tweet_id = {this.props.tweet._id} tweet_username = {this.props.tweet.user_username}
+                hideReplyModal={this.hideReplyModal}/> : null} 
             </div>
         )
     }
@@ -152,7 +280,11 @@ const mapDispatchToProps = dispatch => {
     return {
         deleteTweet: id => {dispatch(deleteTweet(id))},
         likeTweet: id => {dispatch(likeTweet(id))},
-        unlikeTweet: id => {dispatch(unlikeTweet(id))}
+        unlikeTweet: id => {dispatch(unlikeTweet(id))},
+        bookmarkTweet: id => {dispatch(bookmarkTweet(id))},
+        unbookmarkTweet: id => {dispatch(unbookmarkTweet(id))},
+        retweetTweet: id => {dispatch(retweetTweet(id))},
+        unretweetTweet: id => {dispatch(unretweetTweet(id))}
     }
 }
 

@@ -134,6 +134,32 @@ router.route("/bookmarkTweet").post(function(req, res) {
   );
 });
 
+//post a bookmark. Update the existing tweet with the user id of the bookmarked person
+router.route("/retweetTweet").post(function(req, res) {
+  console.log("In update retweet tweet post" + req);
+  var retweetData = {
+    retweetUserId: req.body.retweet_user_id,
+    tweetId: req.body.tweet_id
+  };
+  kafka.make_request(
+    "tweet_topics",
+    {
+      path: "retweetTweet",
+      retweetData: retweetData
+    },
+    function(err, result) {
+      if (err) {
+        console.log(err);
+        console.log("unable to update database");
+        res.status(400).json({ message: "unable to update database" });
+      } else {
+        console.log(result);
+        res.status(200).json({ message: "tweet updated successfully" });
+      }
+    }
+  );
+});
+
 //get liked_by array of a tweet by tweet id
 router.route("/likes").get(function(req, res) {
   var tweet_id = req.body.tweet_id;
@@ -173,6 +199,22 @@ router.route("/delete").post(function(req, res) {
   kafka.make_request(
     "tweet_topics",
     { path: "deleteTweet", tweet_id: tweet_id },
+    function(err, result) {
+      if (result) {
+        res.status(200).json({message: result.message});
+      } else {
+        res.status(400).json(err.info);
+      }
+    }
+  );
+});
+
+router.route("/reply").post(function(req, res) {
+  var tweet_id = req.body.tweet_id;
+  var reply = req.body.reply
+  kafka.make_request(
+    "tweet_topics",
+    { path: "replyTweet", tweetId: tweet_id, reply: reply },
     function(err, result) {
       if (result) {
         res.status(200).json({message: result.message});

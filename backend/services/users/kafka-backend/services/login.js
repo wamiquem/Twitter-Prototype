@@ -12,7 +12,17 @@ exports.loginService = function loginService(info, callback) {
             if (result){
                 // callback(null, {id: row.id, username: row.username, image: row.image});
                 queries.getAllLeaders(row.id, leaders=> {
-                    callback(null, {id: row.id, username: row.username, image: row.image, leaders: leaders});
+                    var tweetUsers = []
+                    var tweetUsersDetails = {}
+                    if(leaders.length>0){
+                        tweetUsers = leaders.map(leader=> {
+                            tweetUsersDetails[leader.leader] = leader.leader_username;
+                            return leader.leader
+                        });
+                    }
+                    tweetUsers.push((row.id).toString());
+                    callback(null, {id: row.id, username: row.username, image: row.image, tweetUsers: tweetUsers,
+                        tweetUsersDetails: tweetUsersDetails});
                 }, err=> {
                     let errorDetails = {};
                     errorDetails.statusCode = 500;

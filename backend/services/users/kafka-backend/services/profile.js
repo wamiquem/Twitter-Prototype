@@ -35,7 +35,7 @@ function getUserDetails(id, callback) {
       }, err => {
           let errorDetails = {};
           errorDetails.statusCode = 500;
-          errorDetails.info = { success: false, mesage: `Something wrong when getting user details. ${err}` };
+          errorDetails.info = { success: false, message: `Something wrong when getting user details. ${err}` };
           callback(errorDetails, null);
     });
 }
@@ -61,7 +61,7 @@ function getUsername(id, callback) {
     }, err => {
         let errorDetails = {};
         errorDetails.statusCode = 500;
-        errorDetails.info = { success: false, mesage: `Something wrong when reading user first name. ${err}` };
+        errorDetails.info = { success: false, message: `Something wrong when reading user first name. ${err}` };
         callback(errorDetails, null);
     });
 }
@@ -73,10 +73,14 @@ function updateUserProfile(user, callback) {
       console.log("User profile updated succesfully");
       callback(null, result);   
       }, err => {
-          let errorDetails = {};
-          errorDetails.statusCode = 500;
-          errorDetails.info = { success: false, message: `Something wrong when updating user profile. ${err}`};
-          callback(errorDetails, null);
+        let errorDetails = {};
+        if(err.code === 'ER_DUP_ENTRY'){
+            errorDetails.statusCode = 400;
+            errorDetails.info = {success: false, message: 'Username already taken. Plz try with a different one'};
+        } else{
+            errorDetails.statusCode = 500;
+            errorDetails.info = {success: false, message: `Something wrong when updating user profile. ${err}`};
+        }
     });
 }
 

@@ -62,12 +62,14 @@ class Login extends Component {
                     localStorage.setItem('username',data.result.username);
                     localStorage.setItem('token',data.token);
                     localStorage.setItem('image',data.result.image);
-                    var leaders = []
-                    if(data.result.leaders.length>0){
-                        leaders = data.result.leaders.map(leader=> leader.leader);
-                    }
-                    leaders.push((data.result.id).toString());
-                    localStorage.setItem('tweetUsers',JSON.stringify(leaders));
+                    localStorage.setItem('tweetUsers',JSON.stringify(data.result.tweetUsers));
+                    localStorage.setItem('tweetUsersDetails',JSON.stringify(data.result.tweetUsersDetails));
+                    // var tweetUsers = []
+                    // if(data.result.leaders.length>0){
+                    //     tweetUsers = data.result.leaders.map(leader=> leader.leader);
+                    // }
+                    // tweetUsers.push((data.result.id).toString());
+                    // localStorage.setItem('tweetUsers',JSON.stringify(tweetUsers));
                     this.setState({
                         authFlag : true,
                         username: data.username
@@ -110,7 +112,7 @@ class Login extends Component {
                                     <h2 class="modal-title">Log in to Twitter</h2>
                                 </div>
                                 <div className="form-group">
-                                    <h2 style= {{color:"red"}}>{this.state.message}</h2>
+                                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                     <input className="login-form-control" required onChange = {this.changeHandler} 
                                     type="email"  name="email" placeholder="Email"/>
                                 </div>

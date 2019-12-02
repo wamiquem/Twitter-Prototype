@@ -86,9 +86,21 @@ textarea:active {
   background-color: #f5f8fa
 }
 
+.md-form textarea[type=text]:not(.browser-default){
+  background-color: #f5f8fa
+}
+
+.md-form input[type=password]:not(.browser-default){
+  background-color: #f5f8fa
+}
+
 .signup-modal .modal-footer{
-  border-top: 0px;
   justify-content: center
+}
+
+.signup-modal .modal-body {
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
 }
 
 .custom-btn {
@@ -230,6 +242,7 @@ textarea:active {
 .add-tweet-form .tweet-profile-image .img-thumbnail{
   width: auto;
   height: 100%;
+  padding: 0
   /* margin-left: -50px; */
 }
 
@@ -279,6 +292,7 @@ textarea:active {
 .tweet-add-image .img-thumbnail{
   width: auto;
   height: 100%;
+  padding: 0
 }
 
 .tweets-list .main-div {
@@ -310,7 +324,7 @@ textarea:active {
 .tweet-box .tweet-profile-image .img-thumbnail{
   width: auto;
   height: 100%;
-  /* margin-left: -50px; */
+  padding: 0
 }
 
 .twitter-icon
@@ -319,6 +333,37 @@ textarea:active {
     height: 15px;
     cursor: pointer;
     margin: 5px 
+}
+
+.reply-box .profile-image {
+  height: 50px; 
+  width: 50px;
+  /* padding-left: 10px; */
+  margin-block-end: 35px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0
+}
+
+.reply-box .profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  padding: 0
+}
+
+.reply-box{
+  /* cursor: pointer; */
+  background-color: #f5f8fa;
+  /* border: 1px solid lightgrey */
+  border-bottom: 1px solid lightgrey;
+}
+
+.reply-box p{ 
+  line-height: 1em; 
+  /* overflow: hidden; */
+  margin: 10px;
 }
 
 .messages-page .main-div {
@@ -373,7 +418,7 @@ input[type="search"] {
 .message-box .profile-image .img-thumbnail{
   width: auto;
   height: 100%;
-  /* margin-left: -50px; */
+  padding: 0
 }
 
 .message-box{
@@ -381,11 +426,12 @@ input[type="search"] {
   background-color: #f5f8fa;
   border: 1px solid lightgrey
 }
+
 .message-box p{
   height: 2em; 
   line-height: 1em; 
   overflow: hidden;
-  margin: 10px
+  margin: 10px;
 }
 
 .user-modal .modal-title {
@@ -420,7 +466,7 @@ input[type="search"] {
 .user-box .profile-image .img-thumbnail{
   width: auto;
   height: 100%;
-  /* margin-left: -50px; */
+  padding: 0
 }
 
 .user-box{
@@ -479,4 +525,66 @@ input[type="search"] {
 
 .search-section input[type="search"] {
   width : 100%
+}
+
+.user-view-form .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+  padding-bottom: 10px
+}
+
+.user-view-form .user-profile-image {
+  height: 150px; 
+  width: 150px;
+  /* padding-left: 10px; */
+  margin-block-end: 10px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-left: 20px
+}
+
+.user-view-form .user-profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  padding: 0
+}
+
+.user-page-button{
+  margin: 60px
+}
+
+.profile-modal .modal-title {
+  font-weight: 800;
+}
+
+.profile-modal .modal-content {
+  border-radius: 1rem;
+}
+
+.profile-modal .modal-body {
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+}
+
+.profile-modal .user-profile-image {
+  height: 100px; 
+  width: 100px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.profile-modal .user-profile-image .img-thumbnail{
+  width: auto;
+  height: 100%;
+  padding: 0
 }

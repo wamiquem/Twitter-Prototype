@@ -18,7 +18,7 @@ router.get('/username',passport.authenticate("jwt", { session: false }),function
     });
 });
 
-router.post('/updateProfile',passport.authenticate("jwt", { session: false }),function(req,res){
+router.post('/update',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside User Update Profile Post Request");
     console.log("Req Body : ",req.body);
     console.log("Req Query : ",req.query);

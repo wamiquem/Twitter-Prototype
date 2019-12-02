@@ -41,7 +41,7 @@ class Signup extends Component {
         var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
-        const username = `${this.state.fname}${Math.floor((Math.random() * 1000) + 1)}`;
+        const username = `${this.state.fname}${this.state.lname}${Math.floor((Math.random() * 1000) + 1)}`;
         const data = {
             fname: this.state.fname,
             lname: this.state.lname,
@@ -96,44 +96,45 @@ class Signup extends Component {
         return(
             <div>
                 {redirectVar}
-                    <div className="modal signup-modal">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Create your account</h5>
-                                </div>
-                            <div className="modal-body">
-                                <form>
+                <div className="modal signup-modal">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Create your account</h5>
+                            </div>
+                            <form onSubmit={this.submitSignup}>
+                                <div className="modal-body">
+                                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                     <div className="md-form">
                                         <input type="text" id="fname" name="fname" className="form-control validate"
-                                        onChange = {this.changeHandler}/>
+                                        onChange = {this.changeHandler} required autoFocus="true"/>
                                         <label for="fname">First name</label>
                                     </div>
                                     <div className="md-form">
                                         <input type="text" id="lname" name="lname" className="form-control validate"
-                                        onChange = {this.changeHandler}/>
+                                        onChange = {this.changeHandler} required/>
                                         <label for="lname">Last name</label>
                                     </div>
                                     <div className="md-form">
                                         <input type="text" id="email" name="email" className="form-control validate"
-                                        onChange = {this.changeHandler}/>
+                                        onChange = {this.changeHandler} required/>
                                         <label for="email">Email</label>
                                     </div>
                                     <div className="md-form">
-                                        <input type="text" id="password" name="password" className="form-control validate"
-                                        onChange = {this.changeHandler}/>
+                                        <input type="password" id="password" name="password" className="form-control validate"
+                                        onChange = {this.changeHandler} required/>
                                         <label for="password">Password</label>
                                     </div>
                                     <div className="md-form">
                                         <input type="text" id="phone" name="phone" className="form-control validate"
-                                        onChange = {this.changeHandler}/>
+                                        onChange = {this.changeHandler} required/>
                                         <label for="phone">Phone</label>
                                     </div>
-                                </form>
-                            </div>
-                            <div className="modal-footer">
-                                <button onClick={this.submitSignup} className="custom-btn">Sign Up</button>
-                            </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="submit" className="custom-btn">Sign Up</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
