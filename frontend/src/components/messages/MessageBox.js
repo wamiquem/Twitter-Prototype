@@ -77,7 +77,13 @@ class MessageBox extends Component {
                             <p>{`@${this.state.username}`}</p>   
                             <p style={{marginLeft: 'auto'}}>{this.props.conversation.updated}</p>   
                         </div>   
-                        <p>{this.props.conversation.messages[this.props.conversation.messages.length-1].text}</p>
+                        {
+                            this.props.conversation.messages.length>0 ? 
+                            <p>{this.props.conversation.messages[this.props.conversation.messages.length-1].text}</p>
+                            :
+                            null
+                        }
+                        
                     </div>   
                 </div>
                 {this.state.showMessageModal ? <MessagesModal 

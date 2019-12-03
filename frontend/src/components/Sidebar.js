@@ -15,7 +15,13 @@ class Sidebar extends Component {
     
     render(){
         let menuOptions = this.props.options.map(option => {
-            
+            if(option === 'Profile'){
+                return(
+                    <li>
+                        <Link to={`/user/${localStorage.getItem('id')}`}>{option}</Link>
+                    </li>
+                )
+            }
             return(
                 <li>
                     <Link to={`/${option.toLowerCase()}`}>{option}</Link>

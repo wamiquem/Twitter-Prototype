@@ -14,6 +14,7 @@ import RepliesModal from './RepliesModal';
 import {deleteTweet, likeTweet, unlikeTweet, bookmarkTweet, unbookmarkTweet, retweetTweet, unretweetTweet} 
 from '../../redux/actions/tweetsAction';
 import ReplyBox from './ReplyBox';
+import Hypertext from '../Hypertext';
 
 class Tweet extends Component {
      constructor(props){
@@ -198,7 +199,7 @@ class Tweet extends Component {
                         <img className="float-left img-thumbnail" id="pic" 
                         src = {this.props.tweet.user_image} alt="Responsive image"></img>
                     </div>
-                    <div>
+                    <div style={{marginLeft:'10px'}}>
                         <div style={{display:'flex'}}>
                             <Link to={`/user/${this.props.tweet.user_id}`}>{`@${this.props.tweet.user_username}`}</Link>
                             <p>{` - ${this.props.tweet.created_date_time}`}</p>
@@ -206,7 +207,8 @@ class Tweet extends Component {
                             <img onClick={this.handleDelete} style={{marginLeft:'30px'}} className= "twitter-icon" src={deleteIcon}/> :
                             null}
                         </div>
-                        <p style={{verticalAlign: 'top'}}>{this.props.tweet.content}</p>
+                        {/* <p style={{verticalAlign: 'top'}}>{this.props.tweet.content}</p> */}
+                        <Hypertext content = {this.props.tweet.content}/>
                         <div style = {{display:'flex', flexWrap:'wrap'}} onClick={() => this.setState({ isOpen: true })}>
                             {
                                 this.props.tweet.images_path ? 

@@ -18,7 +18,7 @@ class Page extends Component {
             <div>
                 {redirectVar}
                 
-                <Sidebar options = {['Home', 'Explore', 'Messages']}/>
+                <Sidebar options = {['Home', 'Messages', 'Bookmarks', 'Profile']}/>
                 <div >
                   <Switch>
                       <Route path="/home" component={Home}/>

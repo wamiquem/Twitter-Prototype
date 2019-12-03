@@ -94,7 +94,7 @@ class Messages extends Component {
                         <div className="main-div">
                            
                         <div style={{display:'flex'}}>
-                                <p className="font-weight-bold" >Messages</p>
+                            <h5 className="font-weight-bold" style={{marginLeft:'10px'}}>Messages</h5>
                                 <img style={{marginLeft: 'auto', marginRight:'20px'}} className= "twitter-icon" src={messageIcon}
                                 onClick= {this.showUserModal}/>
                             </div>
