@@ -24,6 +24,12 @@ exports.profileService = function profileService(info, callback) {
     case "getSpecificUser":
         getSpecificUser(info.message, callback);
         break;
+    case "followUser":
+        followUser(info.message, callback);
+        break;
+    case "unfollowUser":
+        unfollowUser(info.message, callback);
+        break;
   }
 };
 
@@ -121,5 +127,33 @@ function getSpecificUser(id, callback) {
           errorDetails.statusCode = 500;
           errorDetails.info = { success: false, message: `Something wrong when getting user from the table. ${err}` };
           callback(errorDetails, null);
+    });
+}
+
+function followUser(users, callback) {
+    console.log("Inside Kafka Backend Follow User service");
+  
+    queries.addFollower(users, result => {
+      console.log("Successfully added follower and leader");
+      callback(null, result);
+      }, err => {
+        let errorDetails = {};
+        errorDetails.statusCode = 500;
+        errorDetails.info = { success: false, message: `Unable to add follower and leader in the table. ${err}` };
+        callback(errorDetails, null);
+    });
+}
+
+function unfollowUser(users, callback) {
+    console.log("Inside Kafka Backend Unfollow User service");
+  
+    queries.removeFollower(users, result => {
+      console.log("Successfully removed follower and leader");
+      callback(null, result);
+      }, err => {
+        let errorDetails = {};
+        errorDetails.statusCode = 500;
+        errorDetails.info = { success: false, message: `Unable to remove follower and leader in the table. ${err}` };
+        callback(errorDetails, null);
     });
 }

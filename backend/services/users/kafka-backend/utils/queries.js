@@ -90,6 +90,30 @@ queries.updateUserProfile = (user, successcb, failurecb) => {
     });
 }
 
+queries.addFollower = (users, successcb, failurecb) => {
+    let sql = "INSERT INTO follows (follower, leader, leader_username) VALUES ?";
+    const values = [users.follower, users.leader, users.leader_username]
+    con.query(sql, [[values]], function (err, result){
+        if (err){
+            failurecb(err);
+            return;
+        }
+        successcb(result);
+    });
+}
+
+queries.removeFollower = (users, successcb, failurecb) => {
+    let sql = 'DELETE FROM follows WHERE follower = ? and leader=?';
+    
+    con.query(sql, [users.follower,users.leader], function (err, result){
+        if (err){
+            failurecb(err);
+            return;
+        }
+        successcb(result);
+    });
+}
+
 queries.getAllMatchingUsers = (username, successcb, failurecb) => {
     let sql = `SELECT id, username, image
     FROM users WHERE username like '%${username}%'`;

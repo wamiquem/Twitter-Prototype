@@ -130,7 +130,6 @@ export const updateProfile = (userId, data, image) => dispatch => {
         .catch(err => {
             console.log(err);
         });
-
     }, failedMessage => {
         let payload = {responseMessage: failedMessage}
             dispatch({

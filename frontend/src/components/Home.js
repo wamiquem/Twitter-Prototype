@@ -12,12 +12,11 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        const users = localStorage.getItem('tweetUsers');
-        this.props.getTweetsByUsers(users);
+        const users = JSON.parse(localStorage.getItem('tweetUsers'));
+        this.props.getTweetsByUsers(JSON.stringify([...users, localStorage.getItem('id')]));
     }
     
     render(){
-        console.log("this.props===",this.props)
         return(
             <div>
                 <TweetAddForm />

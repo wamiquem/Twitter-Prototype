@@ -126,6 +126,40 @@ export const getTweetsByUsers = users => dispatch => {
     });
 };
 
+export const getTweetsByUserId = id => dispatch => {
+    fetch(`${tweetUrl}/tweet/tweetsByUserId/?userId=${id}`, {
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        credentials: 'include',
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: GET_TWEETS_SUCCESS,
+                    payload: resData
+                })
+            });
+        }else{
+            res.json().then(resData => {
+                const payload = {
+                    responseMessage: resData.message
+                }
+                dispatch({
+                    type: GET_TWEETS_FAILED,
+                    payload: payload
+                })
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
 export const deleteTweet = id => dispatch => {
     fetch(`${tweetUrl}/tweet/delete/?id=${id}`, {
         method: "POST",

@@ -3,10 +3,11 @@ import locationIcon from '../images/location-icon.png'
 import calendarIcon from '../images/calendar-icon.png'
 import ProfileModal from './ProfileModal';
 import {Link} from 'react-router-dom';
-import TweetAddForm from '../components/tweet/TweetAddForm';
 import TweetsList from '../components/tweet/TweetsList'
 import {connect} from 'react-redux';
 import {getProfile} from '../redux/actions/profileAction';
+import {getTweetsByUserId} from '../redux/actions/tweetsAction';
+import {userUrl} from '../config';
 
 //create the Sidebar Component
 class User extends Component {
@@ -14,14 +15,24 @@ class User extends Component {
         super(props);
 
     this.state = {
-        showProfileModal: false
+        showProfileModal: false,
+        following: false,
+        responseMessage:""
     }
     this.showProfileModal = this.showProfileModal.bind(this);
     this.hideProfileModal = this.hideProfileModal.bind(this);
     }
 
     componentDidMount(){
+        if(localStorage.getItem('tweetUsers').includes(this.props.match.params.userId)){
+            this.setState(
+                {
+                    following: true
+                }
+            )
+        }
         this.props.getProfile(this.props.match.params.userId);
+        this.props.getTweetsByUserId(this.props.match.params.userId);
     }
 
     showProfileModal = e => {
@@ -35,24 +46,116 @@ class User extends Component {
             showProfileModal: false
         });
     }
+
+    followUser = e => {
+        e.preventDefault();
+        const data = {
+            follower: localStorage.getItem('id'),
+            leader: this.props.match.params.userId,
+            leader_username: this.props.profile.username
+        }
+        fetch(`${userUrl}/profile/follow`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json,  text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            credentials: 'include',
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(resData => {
+                    var followedUsers = JSON.parse(localStorage.getItem('tweetUsers'));
+                    localStorage.setItem('tweetUsers',JSON.stringify([...followedUsers, this.props.match.params.userId]));
+                    var followedUsersDetails = JSON.parse(localStorage.getItem('tweetUsersDetails'));
+                    followedUsersDetails[data.leader] = data.leader_username;
+                    localStorage.setItem('tweetUsersDetails',JSON.stringify(followedUsersDetails));
+                    this.setState({
+                        following: !this.state.following
+                    })
+                });
+            }else{
+                res.json().then(resData => {
+                    this.setState({
+                        message: resData.message
+                    })
+                }) 
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+    unfollowUser = e => {
+        e.preventDefault();
+        const data = {
+            follower: localStorage.getItem('id'),
+            leader: this.props.match.params.userId
+        }
+        fetch(`${userUrl}/profile/unfollow`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json,  text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            credentials: 'include',
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(resData => {
+                    var followedUsers = JSON.parse(localStorage.getItem('tweetUsers'));
+                    followedUsers.splice( followedUsers.indexOf(data.leader), 1 );
+                    localStorage.setItem('tweetUsers',JSON.stringify(followedUsers));
+                    var followedUsersDetails = JSON.parse(localStorage.getItem('tweetUsersDetails'));
+                    delete followedUsersDetails[data.leader];
+                    localStorage.setItem('tweetUsersDetails',JSON.stringify(followedUsersDetails));
+                    this.setState({
+                        following: !this.state.following
+                    })
+                });
+            }else{
+                res.json().then(resData => {
+                    this.setState({
+                        message: resData.message
+                    })
+                }) 
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
     
     render(){
-        // console.log("this.props===",this.props)
+        var activeButton = <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button>;
+        if(this.props.match.params.userId !== localStorage.getItem('id')){
+            activeButton = <button onClick= {this.followUser} className="custom-btn-lg">Follow</button>;
+            if(this.state.following){
+                activeButton = <button onClick= {this.unfollowUser} className="custom-btn-lg">Following</button>;
+            }
+        }
         return(
             <div>
                 <div className="container">
                     <div className="user-view-form">
                         <div className="main-div">
-                            <h5 className="font-weight-bold" style={{marginLeft:'10px'}}>Home</h5>
+                            <h5 className="font-weight-bold" style={{marginLeft:'10px'}}>{`${this.props.profile.fname} ${this.props.profile.lname}`}</h5>
                             <hr/>
                             <h6 style= {{color:"red"}}>{this.props.profile.responseMessage}</h6>
+                            <h6 style= {{color:"red"}}>{this.state.responseMessage}</h6>
                             <div style={{display:'flex', justifyContent:'space-between'}}>
                                 <div className = "user-profile-image">
                                     <img className="float-left img-thumbnail" id="pic" 
                                         src = {this.props.profile.imageUrl} alt="Responsive image"></img>
                                 </div>
                                 <div className="user-page-button">
-                                    <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button>
+                                    {activeButton}
+                                    {/* <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button> */}
                                 </div>
                             </div>
                             <h5 className="font-weight-bold" style={{marginLeft:'10px'}}>{`${this.props.profile.fname} ${this.props.profile.lname}`}</h5>
@@ -83,9 +186,10 @@ class User extends Component {
                 </div>
                 <div className = "container">
                     <div className = "tweet-separator font-weight-bold">
-                        <h6 className="font-weight-bold" style={{marginLeft:'10px'}}>Tweets</h6>
+                        <h6 className="font-weight-bold" style={{marginLeft:'10px', marginBottom:'0'}}>Tweets</h6>
                     </div>
                 </div>
+                <TweetsList tweets={this.props.tweets}/>
                 {this.state.showProfileModal ? <ProfileModal profile = {this.props.profile}
                 hideProfileModal={this.hideProfileModal} userId = {this.props.match.params.userId}/> : null}
             </div>
@@ -95,13 +199,15 @@ class User extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProfile: id => {dispatch(getProfile(id))}
+        getProfile: id => {dispatch(getProfile(id))},
+        getTweetsByUserId: id => {dispatch(getTweetsByUserId(id))},
     }
 }
 
 const mapStateToProps = state => {
     return {
-        profile: state.profile
+        profile: state.profile,
+        tweets: state.tweets.tweets
     }
 }
 

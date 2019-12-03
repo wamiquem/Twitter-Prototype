@@ -52,7 +52,7 @@ var requireAuth = passport.authenticate("jwt", { session: false });
 });
 //get tweets using the user id
 router.route("/tweetsByUserId").get(function(req, res) {
-  var user_id = req.body.userId;
+  var user_id = req.query.userId;
   kafka.make_request(
     "tweet_topics",
     { path: "tweetsByUserId", user_id: user_id },
@@ -60,7 +60,7 @@ router.route("/tweetsByUserId").get(function(req, res) {
       if (result) {
         res.status(200).json(result.tweets);
       } else {
-        res.status(400).json(err.info);
+        res.status(400).json({message: err.msg});
       }
     }
   );

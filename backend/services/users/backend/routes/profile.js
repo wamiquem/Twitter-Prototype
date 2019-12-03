@@ -91,4 +91,32 @@ router.get('/getSpecificUser',passport.authenticate("jwt", { session: false }),f
     });
 });
 
+router.post('/follow',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside User Follow Post Request");
+    console.log("Req Body : ",req.body);
+
+    kafka.make_request("profile", {type: "followUser", message: req.body},
+        function(err, result) {
+              if(result){
+                res.status(200).json({success:true, message:'Successfully added follower and leader'});
+            }else{
+                res.status(err.statusCode).json(err.info);
+            }
+    });
+});
+
+router.post('/unfollow',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside User Unfollow Post Request");
+    console.log("Req Body : ",req.body);
+
+    kafka.make_request("profile", {type: "unfollowUser", message: req.body},
+        function(err, result) {
+              if(result){
+                res.status(200).json({success:true, message:'Successfully removed follower and leader'});
+            }else{
+                res.status(err.statusCode).json(err.info);
+            }
+    });
+});
+
 module.exports = router;

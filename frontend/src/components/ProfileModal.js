@@ -52,10 +52,14 @@ class ProfileModal extends Component {
         if (!this.validateZip(this.props.profile.zip)) {
             this.setState({ invalidZipMessage: "Invalid Zip Format" });
         return;
+        } else {
+            this.setState({ invalidZipMessage: "" });
         }
         if (!this.validateState(this.props.profile.state.toUpperCase())) {
             this.setState({ invalidStateMessage: "Invalid State Name/Code" });
         return;
+        } else {
+            this.setState({ invalidStateMessage: "" });
         }
         this.props.updateProfile(this.props.userId, this.props.profile, this.state.image);
         this.hideModal(e);

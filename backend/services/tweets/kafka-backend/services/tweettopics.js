@@ -51,7 +51,8 @@ function tweet(msg, callback) {
 }
 
 function tweetsByUserId(msg, callback) {
-  Tweets.find(msg.user_id, function(err, tweets) {
+  var user_id = msg.user_id;
+  Tweets.find({user_id:user_id}).sort({ created_date_time: -1 }).exec(function(err, tweets) {
     if (err) {
       console.log(err);
       console.log("unable to insert tweet");

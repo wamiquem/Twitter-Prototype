@@ -20,7 +20,7 @@ exports.loginService = function loginService(info, callback) {
                             return leader.leader
                         });
                     }
-                    tweetUsers.push((row.id).toString());
+                    // tweetUsers.push((row.id).toString());
                     callback(null, {id: row.id, username: row.username, image: row.image, tweetUsers: tweetUsers,
                         tweetUsersDetails: tweetUsersDetails});
                 }, err=> {

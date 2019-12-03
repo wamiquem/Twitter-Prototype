@@ -116,7 +116,7 @@ class TweetAddForm extends Component {
                 <div className="container">
                     <div className="add-tweet-form">
                         <div className="main-div">
-                            <p className="font-weight-bold" >Home</p>
+                        <h5 className="font-weight-bold" style={{marginLeft:'10px'}}>Home</h5>
                             <hr/>
                             <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                             <div style={{display:'flex'}}>
