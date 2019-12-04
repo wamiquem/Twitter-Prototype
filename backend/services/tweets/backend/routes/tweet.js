@@ -23,7 +23,8 @@ router.post("/tweet", function(req, res) {
       content: req.body.content,
       retweeted_from_id: req.body.retweeted_from_id,
       created_date_time: req.body.created_date_time,
-      images_path: req.body.images_path
+      images_path: req.body.images_path,
+      hashtag: req.body.hashtag
     };
   } else {
     //original tweet insert data
@@ -33,7 +34,8 @@ router.post("/tweet", function(req, res) {
       user_image: req.body.user_image,
       content: req.body.content,
       created_date_time: req.body.created_date_time,
-      images_path: req.body.images_path
+      images_path: req.body.images_path,
+      hashtag: req.body.hashtag
     };
   }
 
@@ -222,13 +224,13 @@ router.route("/bookmarks").get(function(req, res) {
 
 //get tweets that are bookmarked by a user using his user_id
 router.route("/bookmarksByUserId").get(function(req, res) {
-  var user_id = req.body.user_id;
+  var user_id = req.query.userId;
   kafka.make_request(
     "tweet_topics",
     { path: "bookmarksByUserId", user_id: user_id },
     function(err, result) {
       if (result) {
-        res.status(200).json(result.bookmarked_tweets);
+        res.status(200).json(result.tweets);
       } else {
         res.status(400).json(err.info);
       }
@@ -314,13 +316,14 @@ router.route("/hashtag").post(function(req, res) {
 });
 //get tweets by hashtag
 router.route("/tweetsByHashtag").get(function(req, res) {
-  var hashtag = req.body.hashtag;
+  var hashtag = req.query.hashtag;
+  console.log("hashtag====",hashtag)
   kafka.make_request(
     "tweet_topics",
     { path: "tweetsByHashtag", hashtag: hashtag },
     function(err, result) {
       if (result) {
-        res.status(200).json(result.hashtag_tweets);
+        res.status(200).json(result.tweets);
       } else {
         res.status(400).json(err.info);
       }
@@ -330,7 +333,7 @@ router.route("/tweetsByHashtag").get(function(req, res) {
 
 //get all unique hashtags available as an array
 router.route("/hashtags").get(function(req, res) {
-  kafka.make_request("tweet_topics", { path: "getAllHashtags" }, function(
+  kafka.make_request("tweet_topics", { path: "getAllHashtags", hashtag: req.query.hashtag }, function(
     err,
     result
   ) {

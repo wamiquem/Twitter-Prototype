@@ -1,5 +1,5 @@
 import { GET_PROFILE_SUCCESS, GET_PROFILE_FAILED, PROFILE_INPUT_CHANGE_HANDLER, UPDATE_PROFILE_SUCCESS,
-    UPDATE_PROFILE_FAILED, PROFILE_IMAGE_CHANGE_HANDLER } from '../actions/types';
+    UPDATE_PROFILE_FAILED, PROFILE_IMAGE_CHANGE_HANDLER, DELETE_PROFILE_SUCCESS, DELETE_PROFILE_FAILED } from '../actions/types';
 import {userUrl} from '../../config';
 
 export const getProfile = userId => dispatch => {

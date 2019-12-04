@@ -134,7 +134,7 @@ class ProfileModal extends Component {
                                     <h6 style= {{color:"red"}}>{this.state.invalidZipMessage}</h6>
                                     <div className="md-form">
                                         <label className="active" for="zip">Zip</label>
-                                        <input type="number" min="1" step="1" id="zip" name="zip" className="form-control"
+                                        <input type="text" id="zip" name="zip" className="form-control"
                                         onChange = {this.inputChangeHandler} required value={this.props.profile.zip}/>
                                     </div>
                                 </div>

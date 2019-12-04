@@ -245,12 +245,6 @@ class Tweet extends Component {
                 </div>
                 {
                     this.props.tweet.replies ? 
-                    // this.props.tweet.replies.filter(reply=> reply.user_id === localStorage.getItem('id'))
-                    // .map(reply =>(
-                    //     <ReplyBox key={reply.user_id} reply={reply}/>
-                    // ))
-                    // :
-                    // null
                     this.props.tweet.replies.map(reply =>(
                         <ReplyBox key={reply.user_id} reply={reply}/>
                     ))

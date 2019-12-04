@@ -128,20 +128,20 @@ class TweetAddForm extends Component {
                             <hr/>
                             <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                             <div style={{display:'flex'}}>
-                                <div class = "tweet-profile-image">
+                                <div className = "tweet-profile-image">
                                     <img className="float-left img-thumbnail" id="pic" 
                                         src = {localStorage.getItem('image')} alt=""></img>
                                 </div>
                                 <div>
                                     <form onSubmit = {this.submitTweet} >
                                         <div style={{paddingBottom:'10px', paddingLeft:'10px'}}>
-                                            <textarea required autoFocus class="form-control desc-textarea" style={{borderColor:'white'}}
+                                            <textarea required autoFocus className="form-control desc-textarea" style={{borderColor:'white'}}
                                             rows="3" name="content" onChange = {this.changeHandler} maxLength="280"
                                             value = {this.state.content} placeholder="What's happening?"/>
                                         </div>
                                         <b style={{float: 'right'}}>{this.state.usedCharacters}/280</b>
                                         <div style={{display:'flex'}}>
-                                            <div class="image-upload">
+                                            <div className="image-upload">
                                                 <label htmlFor="upload">
                                                     <img src={uploadIcon}/>
                                                 </label>
@@ -154,8 +154,8 @@ class TweetAddForm extends Component {
                                         {
                                             this.state.imagesUrl ? 
                                             this.state.imagesUrl.map((imageUrl,index) => (
-                                                <div class="tweet-add-image" key ={index}>
-                                                    <img class="rounded float-left img-thumbnail" 
+                                                <div className="tweet-add-image" key ={index}>
+                                                    <img className="rounded float-left img-thumbnail" 
                                                     src= {imageUrl} alt="Responsive image"/>
                                                 </div>
                                             )) 

@@ -28,11 +28,12 @@ const profileReducer = (state = initialState, action) => {
                 state: action.payload.user.state,
                 zip: action.payload.user.zip_code,
                 imageUrl: action.payload.user.image,
-                added: action.payload.user.added_date
+                added: action.payload.user.added_date,
+                responseMessage: action.payload.message
             }
         case GET_PROFILE_FAILED:
             return {
-                ...state,
+                ...initialState,
                 responseMessage: action.payload.responseMessage
             }
         case PROFILE_INPUT_CHANGE_HANDLER:

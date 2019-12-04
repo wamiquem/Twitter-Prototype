@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {userUrl, hashtagUrl} from '../config';
+import {userUrl, tweetUrl} from '../config';
 import {Link} from 'react-router-dom';
 
 class SearchSection extends Component {
@@ -74,30 +74,25 @@ class SearchSection extends Component {
   }
 
   searchHashtag = () => {
-    var data = {
-        hashtag: this.state.search
-    }
-    const token = localStorage.getItem('token');
-    fetch(`${hashtagUrl}/searchhashtag`,{
-        method: "POST",
+    var hashtag = this.state.search.replace("#","")
+    fetch(`${tweetUrl}/tweet/hashtags/?hashtag=${hashtag}`, {
         headers: {
+            'Accept': 'application/json,  text/plain, */*',
             'Content-Type': 'application/json',
-            Accept: 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         credentials: 'include',
-        body: JSON.stringify(data)
-        })
+    })
       .then(res => {
         if(res.status === 200){
             res.json().then(data => {
                 let hashtagSearchMessage = "";
-                var hashtags = data.results.rows.map(row => row.hashtag)
-                if(hashtags.length === 0){
+
+                if(data.length === 0){
                     hashtagSearchMessage = "No such hashtag. Please try again"
                 }
                 this.setState({
-                    hashtags: hashtags,
+                    hashtags: data,
                     userSearchMessage: "",
                     users:[],
                     hashtagSearchMessage: hashtagSearchMessage,
@@ -166,7 +161,7 @@ class SearchSection extends Component {
                 {
                 (this.state.hashtags.length!==0) ? 
                   this.state.hashtags.map(hashtag => (
-                    <Link to={{ pathname: `/hashtag/${hashtag.replace("#","")}`, hashtagName: hashtag}} key={hashtag}>
+                    <Link to={{ pathname: `/hashtag/${hashtag.replace("#","")}`}} key={hashtag}>
                         <div className="hashtag-box" >
                             <h6 className="font-weight-bold">{hashtag}</h6>
                         </div>

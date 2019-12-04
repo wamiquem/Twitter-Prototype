@@ -64,12 +64,7 @@ class Login extends Component {
                     localStorage.setItem('image',data.result.image);
                     localStorage.setItem('tweetUsers',JSON.stringify(data.result.tweetUsers));
                     localStorage.setItem('tweetUsersDetails',JSON.stringify(data.result.tweetUsersDetails));
-                    // var tweetUsers = []
-                    // if(data.result.leaders.length>0){
-                    //     tweetUsers = data.result.leaders.map(leader=> leader.leader);
-                    // }
-                    // tweetUsers.push((data.result.id).toString());
-                    // localStorage.setItem('tweetUsers',JSON.stringify(tweetUsers));
+
                     this.setState({
                         authFlag : true,
                         username: data.username

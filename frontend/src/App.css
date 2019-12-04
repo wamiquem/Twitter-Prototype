@@ -415,7 +415,7 @@ input[type="search"] {
 }
 
 .message-box .profile-image .img-thumbnail{
-  width: auto;
+  width: 100%;
   height: 100%;
   padding: 0
 }

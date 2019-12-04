@@ -23,7 +23,7 @@ export default class HyperText extends Component {
             return (
                 <Link
                   key={index}
-                  to={`/hashtag/${token}`}>
+                  to={`/hashtag/${token.replace("#","")}`}>
                   {token}{maybeSpace}
                 </Link>
               );

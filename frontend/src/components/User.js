@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {getProfile} from '../redux/actions/profileAction';
 import {getTweetsByUserId} from '../redux/actions/tweetsAction';
 import {userUrl} from '../config';
+import {Redirect} from 'react-router-dom';
 
 //create the Sidebar Component
 class User extends Component {
@@ -43,6 +44,38 @@ class User extends Component {
     hideProfileModal = e => {
         this.setState({
             showProfileModal: false
+        });
+    }
+
+    deleteAccount = e => {
+        e.preventDefault();
+        fetch(`${userUrl}/profile/delete/?id=${localStorage.getItem('id')}`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json,  text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            credentials: 'include'
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(resData => {
+                    localStorage.clear();
+                    this.setState({
+                        responseMessage: resData.message
+                    })
+                });
+            }else{
+                res.json().then(resData => {
+                    this.setState({
+                        responseMessage: resData.message
+                    })
+                }) 
+            }
+        })
+        .catch(err => {
+            console.log(err);
         });
     }
 
@@ -132,14 +165,24 @@ class User extends Component {
     
     render(){
         var activeButton = <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button>;
+        var deleteButton = <button style={{marginTop:'10px'}} onClick= {this.deleteAccount} className="custom-btn-lg">Delete Account</button>
         if(this.props.match.params.userId !== localStorage.getItem('id')){
             activeButton = <button onClick= {this.followUser} className="custom-btn-lg">Follow</button>;
             if(this.state.following){
                 activeButton = <button onClick= {this.unfollowUser} className="custom-btn-lg">Following</button>;
             }
+            deleteButton = null;
+        }
+        if(!this.props.profile.username){
+            activeButton = null
+        }
+        let redirectVar = null;
+        if(!localStorage.getItem('token')){
+            redirectVar = <Redirect to= {{ pathname: "/login"}}/>
         }
         return(
             <div>
+                {redirectVar}
                 <div className="container">
                     <div className="user-view-form">
                         <div className="main-div">
@@ -152,8 +195,9 @@ class User extends Component {
                                     <img className="float-left img-thumbnail" id="pic" 
                                         src = {this.props.profile.imageUrl} alt=""></img>
                                 </div>
-                                <div className="user-page-button">
+                                <div className="user-page-button">                                        
                                     {activeButton}
+                                    {deleteButton}
                                     {/* <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button> */}
                                 </div>
                             </div>
@@ -188,7 +232,12 @@ class User extends Component {
                         <h6 className="font-weight-bold" style={{marginLeft:'10px', marginBottom:'0'}}>Tweets</h6>
                     </div>
                 </div>
-                <TweetsList tweets={this.props.tweets}/>
+                {
+                    this.props.profile.fname ? 
+                    <TweetsList tweets={this.props.tweets}/>
+                    :
+                    null
+                }
                 {this.state.showProfileModal ? <ProfileModal profile = {this.props.profile}
                 hideProfileModal={this.hideProfileModal} userId = {this.props.match.params.userId}/> : null}
             </div>

@@ -256,7 +256,7 @@ function bookmarksByUserId(msg, callback) {
         }
         console.log("Tweet inserted");
 
-        callback(null, { status: 200, bookmarked_tweets });
+        callback(null, { status: 200, tweets: bookmarked_tweets });
       }
     });
 }
@@ -356,7 +356,7 @@ function updateHashtag(msg, callback) {
 
 //get tweets by hashtag
 function tweetsByHashtag(msg, callback) {
-  var hashtag = msg.hashtag;
+  var hashtag = "#"+msg.hashtag;
   Tweets.find()
     .sort({ created_date_time: -1 })
     .exec(function(err, tweets) {
@@ -374,15 +374,15 @@ function tweetsByHashtag(msg, callback) {
           }
         }
         console.log("tweets containing hashtag fetched successfully");
-        callback(null, { status: 200, hashtag_tweets });
+        callback(null, { status: 200, tweets: hashtag_tweets });
       }
     });
 }
 
 //all distinct hashtag fetch
 function getAllHashtags(msg, callback) {
-  Tweets.find()
-    .distinct("hashtag")
+  Tweets.distinct("hashtag",{"hashtag": {$regex: msg.hashtag, $options: 'i'}})
+    // .distinct("hashtag")
     .exec(function(err, hashtags) {
       if (err) {
         console.log(err);

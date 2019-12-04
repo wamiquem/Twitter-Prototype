@@ -42,9 +42,11 @@ router.get('/details',passport.authenticate("jwt", { session: false }),function(
     kafka.make_request("profile", {type: "getUserDetails", message: req.query.id},
         function(err, result) {
             if(result){
-                res.status(200).json({success: true, user: result});
-            }else{
+                res.status(200).json({success: true, user: result, message:""});
+            }else if(err){
                 res.status(err.statusCode).json(err.info);
+            } else {
+                res.status(401).json({success: true, message:"User Does not Exists"});
             }
     });
 });
@@ -113,6 +115,20 @@ router.post('/unfollow',passport.authenticate("jwt", { session: false }),functio
         function(err, result) {
               if(result){
                 res.status(200).json({success:true, message:'Successfully removed follower and leader'});
+            }else{
+                res.status(err.statusCode).json(err.info);
+            }
+    });
+});
+
+router.post('/delete',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Profile Delete Request");
+    console.log("Req Query : ",req.query);
+
+    kafka.make_request("profile", {type: "deleteProfile", message: req.query.id},
+        function(err, result) {
+              if(result){
+                res.status(200).json({success:true, message:'Profile Deleted successfully'});
             }else{
                 res.status(err.statusCode).json(err.info);
             }

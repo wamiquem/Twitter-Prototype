@@ -30,6 +30,9 @@ exports.profileService = function profileService(info, callback) {
     case "unfollowUser":
         unfollowUser(info.message, callback);
         break;
+    case "deleteProfile":
+        deleteProfile(info.message, callback);
+        break;
   }
 };
 
@@ -154,6 +157,20 @@ function unfollowUser(users, callback) {
         let errorDetails = {};
         errorDetails.statusCode = 500;
         errorDetails.info = { success: false, message: `Unable to remove follower and leader in the table. ${err}` };
+        callback(errorDetails, null);
+    });
+}
+
+function deleteProfile(id, callback) {
+    console.log("Inside Kafka Backend Delete profile service");
+  
+    queries.deleteUser(id, result => {
+      console.log("Successfully deleted user profile");
+      callback(null, result);
+      }, err => {
+        let errorDetails = {};
+        errorDetails.statusCode = 500;
+        errorDetails.info = { success: false, message: `Unable to delete profile in the table. ${err}` };
         callback(errorDetails, null);
     });
 }

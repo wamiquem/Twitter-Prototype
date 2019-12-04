@@ -114,6 +114,18 @@ queries.removeFollower = (users, successcb, failurecb) => {
     });
 }
 
+queries.deleteUser = (id, successcb, failurecb) => {
+    let sql = 'DELETE FROM users WHERE id=?';
+    
+    con.query(sql, [id], function (err, result){
+        if (err){
+            failurecb(err);
+            return;
+        }
+        successcb(result);
+    });
+}
+
 queries.getAllMatchingUsers = (username, successcb, failurecb) => {
     let sql = `SELECT id, username, fname, lname, image
     FROM users WHERE username like '%${username}%'`;
