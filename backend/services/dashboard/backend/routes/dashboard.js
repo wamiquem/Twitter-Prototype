@@ -7,11 +7,11 @@ var kafka = require("../kafka/client");
 var passport = require("passport");
 
 //get tweets using the user_id for dashboard
-router.route("/dashboard/tweets").get(function(req, res) {
+router.route("/allTweets").get(function(req, res) {
   var user_id = req.body.userId;
   kafka.make_request(
     "dashboard_topics",
-    { path: "tweetsByUserId", user_id: user_id },
+    { path: "tweetsAll", user_id: user_id },
     function(err, result) {
       if (result) {
         res.status(200).json(result.tweets);
@@ -23,7 +23,7 @@ router.route("/dashboard/tweets").get(function(req, res) {
 });
 
 //get tweets liked by a user using user_id for dashboard
-router.route("/dashboard/likedTweets").get(function(req, res) {
+router.route("/likedTweets").get(function(req, res) {
   var user_id = req.body.userId;
   kafka.make_request(
     "dashboard_topics",
@@ -39,7 +39,7 @@ router.route("/dashboard/likedTweets").get(function(req, res) {
 });
 
 //get tweets bookmarked by a user using the user_id for dashboard
-router.route("/dashboard/bookmarkedTweets").get(function(req, res) {
+router.route("/bookmarkedTweets").get(function(req, res) {
   var user_id = req.body.userId;
   kafka.make_request(
     "dashboard_topics",

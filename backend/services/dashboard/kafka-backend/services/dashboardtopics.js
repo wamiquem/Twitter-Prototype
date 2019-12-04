@@ -12,8 +12,27 @@ exports.dashboardService = function dashboardService(msg, callback) {
     case "bookmarkedTweetsByUserId":
       bookmarkedTweetsByUserId(msg, callback);
       break;
+    case "tweetsAll":
+      tweetsAll(msg, callback);
+      break;
   }
 };
+
+function tweetsAll(msg, callback) {
+  var users = [];
+  users = msg.users;
+  console.log("users" + users);
+  Tweets.find().sort({ created_date_time: -1 }).exec(function(err, tweets) {
+    if (err) {
+      console.log(err);
+      console.log("unable to insert tweet");
+      callback(err, "Database Error");
+    } else {
+      console.log("Tweet inserted");
+      callback(null, { status: 200, tweets });
+    }
+  });
+}
 
 function tweetsByUserId(msg, callback) {
   Tweets.find({ user_id: msg.user_id }, function(err, tweets) {

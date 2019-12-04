@@ -6,5 +6,5 @@ module.exports = {
   database_password: "cmpe273",
   database_host: "twitter-db-9y7fe.mongodb.net",
   database_name: "twitter",
-  backend_port: "3101"
+  backend_port: "3104"
 };

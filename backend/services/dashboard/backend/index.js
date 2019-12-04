@@ -27,7 +27,7 @@ mongoose.connect(connStr, { useNewUrlParser: true, poolSize: 10 }, function(
     console.log("Successfully connected to MongoDB");
   }
 });
-var basePath = "/twitter";
+var basePath = "/dashboard";
 var dashboard = require("./routes/dashboard");
 //var upload = require("./routes/upload");
 
@@ -60,7 +60,7 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 //start your server on port 3101
-app.listen(3101);
-console.log("Server Listening on port 3101.");
+app.listen(3104);
+console.log("Server Listening on port 3104.");
 
 module.exports = app;

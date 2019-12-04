@@ -2,6 +2,7 @@ module.exports = {
     userUrl: 'http://localhost:3101',
     messageUrl: 'http://localhost:3102',
     tweetUrl: 'http://localhost:3103',
+    dashboardUrl: 'http://localhost:3104',
     USStatesNames:["ALABAMA","ALASKA","ARIZONA","ARKANSAS","CALIFORNIA","COLORADO","CONNECTICUT","DELAWARE",
     "FLORIDA","GEORGIA","HAWAII","IDAHO","ILLINOIS","INDIANA","IOWA","KANSAS","KENTUCKY","LOUISIANA","MAINE",
     "MARYLAND","MASSACHUSETTS","MICHIGAN","MINNESOTA","MISSISSIPPI","MISSOURI","MONTANA","NEBRASKA","NEVADA",
