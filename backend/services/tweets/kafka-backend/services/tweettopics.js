@@ -33,6 +33,12 @@ exports.tweetsService = function tweetsService(msg, callback) {
     case "replyTweet":
       replyTweet(msg, callback);
       break;
+    case "bookmarksByUserId":
+      bookmarksByUserId(msg, callback);
+      break;
+    case "updateView":
+      updateView(msg, callback);
+      break;
   }
 };
 
@@ -52,31 +58,37 @@ function tweet(msg, callback) {
 
 function tweetsByUserId(msg, callback) {
   var user_id = msg.user_id;
-  Tweets.find({user_id:user_id}).sort({ created_date_time: -1 }).exec(function(err, tweets) {
-    if (err) {
-      console.log(err);
-      console.log("unable to insert tweet");
-      callback(err, "Database Error");
-    } else {
-      console.log("Tweet inserted");
-      callback(null, { status: 200, tweets });
-    }
-  });
+  Tweets.find({ user_id: user_id })
+    .sort({ created_date_time: -1 })
+    .exec(function(err, tweets) {
+      if (err) {
+        console.log(err);
+        console.log("unable to insert tweet");
+        callback(err, "Database Error");
+      } else {
+        console.log("Tweet inserted");
+        callback(null, { status: 200, tweets });
+      }
+    });
 }
 function tweetsByUsers(msg, callback) {
   var users = [];
   users = msg.users;
   console.log("users" + users);
-  Tweets.find({$or:[{ user_id: { $in: users }},{ retweeted_by: { $in: users }}]}).sort({ created_date_time: -1 }).exec(function(err, tweets) {
-    if (err) {
-      console.log(err);
-      console.log("unable to insert tweet");
-      callback(err, "Database Error");
-    } else {
-      console.log("Tweet inserted");
-      callback(null, { status: 200, tweets });
-    }
-  });
+  Tweets.find({
+    $or: [{ user_id: { $in: users } }, { retweeted_by: { $in: users } }]
+  })
+    .sort({ created_date_time: -1 })
+    .exec(function(err, tweets) {
+      if (err) {
+        console.log(err);
+        console.log("unable to insert tweet");
+        callback(err, "Database Error");
+      } else {
+        console.log("Tweet inserted");
+        callback(null, { status: 200, tweets });
+      }
+    });
 }
 function likeTweet(msg, callback) {
   Tweets.findOne({ _id: msg.likeData.tweetId }).exec(function(err, tweet) {
@@ -210,18 +222,42 @@ function bookmarksByTweetId(msg, callback) {
   });
 }
 
+function bookmarksByUserId(msg, callback) {
+  var user_id = msg.user_id;
+  Tweets.find()
+    .sort({ created_date_time: -1 })
+    .exec(function(err, tweets) {
+      if (err) {
+        console.log(err);
+        console.log("unable to insert tweet");
+        callback(err, "Database Error");
+      } else {
+        var bookmarked_tweets = [];
+        if (tweets) {
+          for (i = 0; i < tweets.length; i++) {
+            for (j = 0; j < tweets[i].bookmarked_by.length; j++) {
+              if (tweets[i].bookmarked_by[j] == user_id) {
+                bookmarked_tweets.push(tweets[i]);
+              }
+            }
+          }
+        }
+        console.log("Tweet inserted");
+
+        callback(null, { status: 200, bookmarked_tweets });
+      }
+    });
+}
+
 function deleteTweet(msg, callback) {
-  Tweets.remove({ _id: msg.tweet_id }, function(
-    err,
-    tweet
-  ) {
+  Tweets.remove({ _id: msg.tweet_id }, function(err, tweet) {
     if (err) {
       console.log(err);
       console.log("unable to delete the tweet");
       callback(err, "Database Error");
     } else {
       console.log("Tweet deleted successfully");
-      callback(null, { status: 200, message: "Tweet deleted successfully"});
+      callback(null, { status: 200, message: "Tweet deleted successfully" });
     }
   });
 }
@@ -229,7 +265,7 @@ function deleteTweet(msg, callback) {
 function replyTweet(msg, callback) {
   Tweets.findOne({ _id: msg.tweetId }).exec(function(err, tweet) {
     if (tweet) {
-     tweet.replies.push(msg.reply)
+      tweet.replies.push(msg.reply);
 
       tweet.save(function(err, tweet) {
         if (err) {
@@ -244,6 +280,34 @@ function replyTweet(msg, callback) {
       console.log(err);
       console.log("invalid tweet id");
       callback(err, "invalid tweet id");
+    }
+  });
+}
+
+function updateView(msg, callback) {
+  console.log("in update view");
+  console.log(msg.viewData.tweetId);
+  Tweets.findOne({ _id: msg.viewData.tweetId }).exec(function(err, tweet) {
+    if (err) {
+      console.log(err);
+      console.log("unable to update view of the tweet");
+      callback(err, "Database Error");
+    } else {
+      console.log("Tweet to be updated" + tweet);
+      console.log(tweet.views);
+      tweet.views = tweet.views + 1;
+      console.log(tweet.views);
+      tweet.save(function(err, tweet) {
+        if (err) {
+          console.log(err);
+          console.log("unable to update database");
+          callback(err, "unable to update database");
+        } else {
+          console.log("result:", tweet);
+          console.log("Tweet view save Successful");
+          callback(null, { status: 200, tweet });
+        }
+      });
     }
   });
 }
