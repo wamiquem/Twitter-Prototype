@@ -53,9 +53,12 @@ app.use(
   });
 
   app.post('/inserthashtag', function (request, response) {
+    
 
     kafka.make_request('hashtag_topic',{type:"inserthashtag",message: request.body}, function(err,results){
       console.log('in result');
+
+      
       console.log(results);
       if (err){
           console.log("Inside err");
@@ -74,10 +77,31 @@ app.use(
           } 
   });
   });
-  app.post('/updatehashtag', function (request, response) {
+  app.post('/searchtweetfromhashtag', function (request, response) {
       
-    kafka.make_request('hashtag_topic',{type:"updatehashtag",message: request.body}, function(err,results){
+    kafka.make_request('hashtag_topic',{type:"searchtweetfromhashtag",message: request.body}, function(err,results){
       console.log('in result');
+      console.log(results);
+      if (err){
+          console.log("Inside err");
+          response.json({
+              status:"error",
+              msg:"System Error, Try Again."
+          })
+      }else{
+          console.log("Inside else");
+          console.log("results from kafka",results)
+          response.json({
+                  dataFromKafka:results
+              });
+              response.end();
+          } 
+  });
+  });
+  app.post('/searchhashtag', function (request, response) {
+    console.log('in first search result backend')
+    kafka.make_request('hashtag_topic',{type:"searchhashtag",message: request.body}, function(err,results){
+      console.log('in search result backend');
       console.log(results);
       if (err){
           console.log("Inside err");
@@ -96,27 +120,27 @@ app.use(
   });
   });
 
-  app.post('/searchhashtag', function (request, response) {
-      
-    kafka.make_request('hashtag_topic',{type:"searchhashtag",message: request.body}, function(err,results){
-      console.log('in result');
-      console.log(results);
-      if (err){
-          console.log("Inside err");
-          response.json({
-              status:"error",
-              msg:"System Error, Try Again."
-          })
-      }else{
-          console.log("Inside else");
-          console.log("results from kafka",results)
-          response.json({
-                  dataFromKafka:results
-              });
-              response.end();
-          } 
-  });
-  });
+  // app.post('/searchhashtag', function (request, response) {
+  //   console.log('in first search result backend')
+  //   kafka.make_request('hashtag_topic',{type:"searchhashtag",message: request.body}, function(err,results){
+  //     console.log('in search result backend');
+  //     console.log(results);
+  //     if (err){
+  //         console.log("Inside err");
+  //         response.json({
+  //             status:"error",
+  //             msg:"System Error, Try Again."
+  //         })
+  //     }else{
+  //         console.log("Inside else");
+  //         console.log("results from kafka",results)
+  //         response.json({
+  //                 dataFromKafka:results
+  //             });
+  //             response.end();
+  //         } 
+  // });
+  // });
 app.listen(3001);
 console.log("Server Listening on port 3001");
   
