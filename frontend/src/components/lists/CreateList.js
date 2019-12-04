@@ -42,7 +42,7 @@ class CreateList extends Component {
             listName: this.state.listName,
             listDescription: this.state.listDescription,
             listOwnerId: localStorage.getItem('id'),
-            listOwnerName: localStorage.getItem('Name'),
+            listOwnerName: localStorage.getItem('fname')+" "+localStorage.getItem('lname'),
             listOwnerUserName: localStorage.getItem('username')
         }
 
@@ -60,7 +60,7 @@ class CreateList extends Component {
             if(res.status === 200){
                 res.text().then(data => { 
                     console.log(data);
-                    localStorage.setItem('listId', JSON.parse(data).listId);
+                    localStorage.setItem('listId', JSON.parse(data).list._id);
                     this.setState({
                         success : true
                     });

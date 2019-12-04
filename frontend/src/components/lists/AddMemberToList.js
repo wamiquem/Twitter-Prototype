@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {listsUrl} from '../../config';
 import {userUrl} from '../../config';
+import {Link} from 'react-router-dom';
 
 //create the Create List Component
 class AddMemberToList extends Component {
@@ -73,7 +74,6 @@ class AddMemberToList extends Component {
       }
 
       addMember = (id, username, image) => {
-        e.preventDefault();
         const token = localStorage.getItem('token');
 
         const data = {
@@ -83,6 +83,7 @@ class AddMemberToList extends Component {
             userImage : image
         }
         fetch(`${listsUrl}/lists/addMemberToList`,{
+          method: 'POST',
           headers: {
               'Content-Type': 'application/json',
               Accept: 'application/json',
@@ -93,7 +94,7 @@ class AddMemberToList extends Component {
         })
         .then(res => {
             if(res.status === 200){
-                res.json.then(data => {
+                res.json().then(data => {
                     this.setState({
                         searchMessage : data.message
                     })
@@ -116,8 +117,10 @@ class AddMemberToList extends Component {
               <div className="modal-content">
                 <div className="modal-header">
                   <h4 className="modal-title">Add Member</h4>
-                  <button type="button" className="close"
-                  data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <Link to={`/lists/owned/${localStorage.getItem('id')}`}>
+                    <button type="button" className="close"
+                    data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </Link>
                 </div>
                 
                 <div className="modal-body">
@@ -135,7 +138,7 @@ class AddMemberToList extends Component {
                 (this.state.users.length!==0) ? 
                   this.state.users.map(user => (
                     <div style={{display:'flex'}} className="user-box" key={user.id}
-                    onClick = {() => this.addConversation(user.id,)}>
+                    onClick = {() => this.addMember(user.id,user.username, user.image)}>
                       <div class = "profile-image">
                           <img className="float-left img-thumbnail" id="pic" 
                           src = {user.image} alt="Responsive image"></img>

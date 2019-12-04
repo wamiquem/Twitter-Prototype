@@ -92,6 +92,7 @@ router.get('/UserLists', function(req, res){
     kafka.make_request("lists", {type: "getUserLists", message: req.query.ownerId},
         function(err, result) {
             if(result){
+                console.log("result==",result);
                 res.status(200).json({success: true, lists : result});
             }else{
                 res.status(err.statusCode).json(err.info);
@@ -134,6 +135,7 @@ router.get('/ListMembers', function(req, res){
     kafka.make_request("lists", {type: "getListMembers", message: req.query.listId},
         function(err, result) {
             if(result){
+                console.log("resulttttt",result);
                 res.status(200).json({success: true, members : result.listMembers});
             }else{
                 res.status(err.statusCode).json(err.info);

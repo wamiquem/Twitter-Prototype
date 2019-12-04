@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import {listsUrl} from '../../config';
-import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 
 class Memberships extends Component {

@@ -121,14 +121,18 @@ queries.getUserMemberLists = (userId, successcb, failurecb) => {
 
 queries.getListMembers = (listId, successcb, failurecb) => {
     console.log("Inside Get List Members.");
-    Lists.find({listId : listId})
-    .then(result => successcb(result))
+    console.log("list id==",listId)
+    Lists.findOne({_id : listId})
+    .then(result => {
+        console.log("result****", result);
+                successcb(result)})
     .catch(err => failurecb(err))
 }
 
 queries.getListSubscribers = (listId, successcb, failurecb) => {
     console.log("Inside Get List Subscribers.");
-    Lists.find({listId : listId})
+    console.log("list id==",listId)
+    Lists.find({_id : listId})
     .then(result => successcb(result))
     .catch(err => failurecb(err))
 }

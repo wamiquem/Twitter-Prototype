@@ -156,6 +156,7 @@ function getListMembers(listId, callback) {
         console.log("List Members: "+ result);
         callback(null, result);
     }, err => {
+        console.log("err.message===",err.message)
         let errorDetails = {};
         errorDetails.statusCode = 500;
         errorDetails.info = { success: false, message: `Something failed when getting members from list. ${err.message}` };

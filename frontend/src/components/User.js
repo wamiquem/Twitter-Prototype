@@ -166,15 +166,18 @@ class User extends Component {
     render(){
         var activeButton = <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button>;
         var deleteButton = <button style={{marginTop:'10px'}} onClick= {this.deleteAccount} className="custom-btn-lg">Delete Account</button>
+        var viewButton = null;
         if(this.props.match.params.userId !== localStorage.getItem('id')){
             activeButton = <button onClick= {this.followUser} className="custom-btn-lg">Follow</button>;
             if(this.state.following){
                 activeButton = <button onClick= {this.unfollowUser} className="custom-btn-lg">Following</button>;
             }
             deleteButton = null;
+            viewButton = <button style={{marginTop:'10px'}} className="custom-btn-lg">Subscribe List</button>
         }
         if(!this.props.profile.username){
-            activeButton = null
+            activeButton = null;
+            viewButton = null;
         }
         let redirectVar = null;
         if(!localStorage.getItem('token')){
@@ -198,6 +201,7 @@ class User extends Component {
                                 <div className="user-page-button">                                        
                                     {activeButton}
                                     {deleteButton}
+                                    {viewButton}
                                     {/* <button onClick= {this.showProfileModal} className="custom-btn-lg">Edit Profile</button> */}
                                 </div>
                             </div>

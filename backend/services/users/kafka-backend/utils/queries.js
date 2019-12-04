@@ -27,7 +27,7 @@ queries.authenticateUser = (id, successcb, failurecb) => {
 }
 
 queries.getUserPasswordByEmail = (email, successcb, failurecb) => {
-    let sql = 'SELECT password, username, id, image FROM users WHERE email = ?';
+    let sql = 'SELECT password, username, fname, lname, id, image FROM users WHERE email = ?';
     con.query(sql, [email], function (err, row){
         if (err){
             failurecb(err);

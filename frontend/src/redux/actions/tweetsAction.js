@@ -3,7 +3,7 @@ DELETE_TWEET_FAILED, LIKE_TWEET_SUCCESS, LIKE_TWEET_FAILED, UNLIKE_TWEET_SUCCESS
 BOOKMARK_TWEET_SUCCESS, BOOKMARK_TWEET_FAILED, UNBOOKMARK_TWEET_SUCCESS, UNBOOKMARK_TWEET_FAILED,
 REPLY_TWEET_SUCCESS, REPLY_TWEET_FAILED, RETWEET_TWEET_SUCCESS, RETWEET_TWEET_FAILED, UNRETWEET_TWEET_SUCCESS, 
 UNRETWEET_TWEET_FAILED} from '../actions/types';
-import {tweetUrl} from '../../config';
+import {tweetUrl, listsUrl} from '../../config';
 
 const saveTweetImages = (data,successcb, failurecb) => {
     if(data.images.length > 0){
@@ -541,5 +541,66 @@ export const replyTweet = data => dispatch => {
     })
     .catch(err => {
         console.log(err);
+    });
+};
+
+const getListMembers = (listId,successcb) => {
+    fetch(`${listsUrl}/lists/ListMembers/?listId=${listId}`, {
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+    })
+    .then(res => {
+        res.json().then(resData => {
+            console.log("resdatatatata", resData)
+            var members = resData.members.map(member=>member.memberId)
+            
+            successcb(members);
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    });   
+}
+
+export const getTweetsByListUsers = listId => dispatch => {
+    getListMembers(listId, members => {
+        console.log("members=", members);
+        fetch(`${tweetUrl}/tweet/tweetsForFeed/?users=${JSON.stringify(members)}`, {
+            headers: {
+                'Accept': 'application/json,  text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            credentials: 'include',
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(resData => {
+                    console.log("redat==",resData)
+                    dispatch({
+                        type: GET_TWEETS_SUCCESS,
+                        payload: resData
+                    })
+                });
+            }else{
+                res.json().then(resData => {
+                    const payload = {
+                        responseMessage: resData.message
+                    }
+                    dispatch({
+                        type: GET_TWEETS_FAILED,
+                        payload: payload
+                    })
+                }) 
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
     });
 };

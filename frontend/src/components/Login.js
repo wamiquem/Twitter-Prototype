@@ -62,6 +62,8 @@ class Login extends Component {
                     localStorage.setItem('username',data.result.username);
                     localStorage.setItem('token',data.token);
                     localStorage.setItem('image',data.result.image);
+                    localStorage.setItem('fname',data.result.fname);
+                    localStorage.setItem('lname',data.result.lname);
                     localStorage.setItem('tweetUsers',JSON.stringify(data.result.tweetUsers));
                     localStorage.setItem('tweetUsersDetails',JSON.stringify(data.result.tweetUsersDetails));
 
