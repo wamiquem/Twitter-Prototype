@@ -39,6 +39,18 @@ exports.tweetsService = function tweetsService(msg, callback) {
     case "updateView":
       updateView(msg, callback);
       break;
+    case "updateHashtag":
+      updateHashtag(msg, callback);
+      break;
+    case "tweetsByHashtag":
+      tweetsByHashtag(msg, callback);
+      break;
+    case "getAllHashtags":
+      getAllHashtags(msg, callback);
+      break;
+    case "tweetsByTweetIds":
+      tweetsByTweetIds(msg, callback);
+      break;
   }
 };
 
@@ -284,6 +296,7 @@ function replyTweet(msg, callback) {
   });
 }
 
+//update the tweet with the number of views
 function updateView(msg, callback) {
   console.log("in update view");
   console.log(msg.viewData.tweetId);
@@ -310,4 +323,93 @@ function updateView(msg, callback) {
       });
     }
   });
+}
+
+//update the tweet with hashtag
+function updateHashtag(msg, callback) {
+  console.log("in update hashtag");
+  console.log(msg.hashtagData.tweetId);
+  Tweets.findOne({ _id: msg.hashtagData.tweetId }).exec(function(err, tweet) {
+    if (err) {
+      console.log(err);
+      console.log("unable to update view of the tweet");
+      callback(err, "Database Error");
+    } else {
+      console.log("Tweet to be updated" + tweet);
+      console.log(tweet.hashtag);
+      tweet.hashtag = msg.hashtagData.hashtag;
+      console.log(tweet.views);
+      tweet.save(function(err, tweet) {
+        if (err) {
+          console.log(err);
+          console.log("unable to update database");
+          callback(err, "unable to update database");
+        } else {
+          console.log("result:", tweet);
+          console.log("Tweet hashtag update was Successful");
+          callback(null, { status: 200, tweet });
+        }
+      });
+    }
+  });
+}
+
+//get tweets by hashtag
+function tweetsByHashtag(msg, callback) {
+  var hashtag = msg.hashtag;
+  Tweets.find()
+    .sort({ created_date_time: -1 })
+    .exec(function(err, tweets) {
+      if (err) {
+        console.log(err);
+        console.log("unable to insert tweet");
+        callback(err, "Database Error");
+      } else {
+        var hashtag_tweets = [];
+        if (tweets) {
+          for (i = 0; i < tweets.length; i++) {
+            if (tweets[i].hashtag == hashtag) {
+              hashtag_tweets.push(tweets[i]);
+            }
+          }
+        }
+        console.log("tweets containing hashtag fetched successfully");
+        callback(null, { status: 200, hashtag_tweets });
+      }
+    });
+}
+
+//all distinct hashtag fetch
+function getAllHashtags(msg, callback) {
+  Tweets.find()
+    .distinct("hashtag")
+    .exec(function(err, hashtags) {
+      if (err) {
+        console.log(err);
+        console.log("unable to insert tweet");
+        callback(err, "Database Error");
+      } else {
+        console.log("Hashtags fetched");
+        callback(null, { status: 200, hashtags });
+      }
+    });
+}
+
+//get tweets by an array of tweet ids
+function tweetsByTweetIds(msg, callback) {
+  var tweetIds = [];
+  tweetIds = msg.tweetIds;
+  console.log("tweetIds" + tweetIds);
+  Tweets.find({ _id: { $in: tweetIds } })
+    .sort({ created_date_time: -1 })
+    .exec(function(err, tweets) {
+      if (err) {
+        console.log(err);
+        console.log("unable to fetch tweets");
+        callback(err, "Database Error");
+      } else {
+        console.log("Tweets fetched using an array of tweet ids");
+        callback(null, { status: 200, tweets });
+      }
+    });
 }

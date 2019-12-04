@@ -134,7 +134,7 @@ router.route("/bookmarkTweet").post(function(req, res) {
   );
 });
 
-//post a bookmark. Update the existing tweet with the user id of the bookmarked person
+//update retweet tweet
 router.route("/retweetTweet").post(function(req, res) {
   console.log("In update retweet tweet post" + req);
   var retweetData = {
@@ -160,7 +160,7 @@ router.route("/retweetTweet").post(function(req, res) {
   );
 });
 
-//post a bookmark. Update the existing tweet with the user id of the bookmarked person
+//Update the views count by tweet_id
 router.route("/views").post(function(req, res) {
   console.log("In update views tweet post" + req);
   var viewData = {
@@ -268,4 +268,77 @@ router.route("/reply").post(function(req, res) {
   );
 });
 
+//get tweets by array of tweet ids
+router.route("/tweetsByTweetIds").get(function(req, res) {
+  var tweetIds = req.body.tweetIds;
+  console.log("tweetIds");
+  kafka.make_request(
+    "tweet_topics",
+    { path: "tweetsByTweetIds", tweetIds: tweetIds },
+    function(err, result) {
+      if (result) {
+        res.status(200).json(result.tweets);
+      } else {
+        res.status(400).json({ message: err.msg });
+      }
+    }
+  );
+});
+
+//Update hashtag in a tweet by tweet_id
+router.route("/hashtag").post(function(req, res) {
+  console.log("In update hashtag tweet post" + req);
+  var hashtagData = {
+    tweetId: req.body.tweet_id,
+    hashtag: req.body.hashtag
+  };
+  kafka.make_request(
+    "tweet_topics",
+    {
+      path: "updateHashtag",
+      hashtagData: hashtagData
+    },
+    function(err, result) {
+      if (err) {
+        console.log(err);
+        console.log("unable to update database");
+        res.status(400).json({ message: "unable to update database" });
+      } else {
+        console.log(result);
+        res
+          .status(200)
+          .json({ message: "Updated hashtag in tweet, successfully" });
+      }
+    }
+  );
+});
+//get tweets by hashtag
+router.route("/tweetsByHashtag").get(function(req, res) {
+  var hashtag = req.body.hashtag;
+  kafka.make_request(
+    "tweet_topics",
+    { path: "tweetsByHashtag", hashtag: hashtag },
+    function(err, result) {
+      if (result) {
+        res.status(200).json(result.hashtag_tweets);
+      } else {
+        res.status(400).json(err.info);
+      }
+    }
+  );
+});
+
+//get all unique hashtags available as an array
+router.route("/hashtags").get(function(req, res) {
+  kafka.make_request("tweet_topics", { path: "getAllHashtags" }, function(
+    err,
+    result
+  ) {
+    if (result) {
+      res.status(200).json(result.hashtags);
+    } else {
+      res.status(400).json(err.info);
+    }
+  });
+});
 module.exports = router;

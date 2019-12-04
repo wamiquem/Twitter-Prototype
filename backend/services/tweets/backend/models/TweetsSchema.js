@@ -45,6 +45,10 @@ TweetsSchema = new Schema({
   views: {
     type: Number,
     default: 0
+  },
+  hashtag: {
+    type: String,
+    default: ""
   }
 });
 
