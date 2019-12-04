@@ -2,6 +2,7 @@ import React from 'react';
 import {Route,Switch} from 'react-router-dom';
 import Owned from './Owned';
 import CreateList from './CreateList';
+import AddMemberToList from './AddMemberToList';
 
 //Create a Main Functional Component
 function Lists() {
@@ -10,6 +11,7 @@ function Lists() {
         <Switch>
           <Route path="/lists/owned/:userId" component={Owned}/>
           <Route path="/lists/createList" component={CreateList}/>
+          <Route path="/lists/addMemberToList" component={AddMemberToList}/>
         </Switch>
     </div>
   );

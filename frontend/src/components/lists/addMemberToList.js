@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {Redirect} from 'react-router';
-import {userUrl} from '../config';
+import {listsUrl} from '../../config';
+import {userUrl} from '../../config';
 
 //create the Create List Component
 class AddMemberToList extends Component {
@@ -16,13 +17,8 @@ class AddMemberToList extends Component {
             users: []
         }
         //Bind the handlers to this class
-        this.hideModal = this.hideModal.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
         this.searchUser = this.searchUser.bind(this);
-    }
-
-    hideModal = e => {
-        this.props.hideUserModal();
     }
   
     changeHandler(e) {
@@ -41,7 +37,7 @@ class AddMemberToList extends Component {
     searchUser = (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        fetch(`${userUrl}/lists/getAllMatchingUsers/?username=${this.state.username}`,{
+        fetch(`${userUrl}/profile/getAllMatchingUsers/?username=${this.state.username}`,{
           headers: {
               'Content-Type': 'application/json',
               Accept: 'application/json',
@@ -84,7 +80,7 @@ class AddMemberToList extends Component {
             listId : localStorage.getItem('listId'),
             userId : id
         }
-        fetch(`${userUrl}/lists/addMemberToList`,{
+        fetch(`${listsUrl}/lists/addMemberToList`,{
           headers: {
               'Content-Type': 'application/json',
               Accept: 'application/json',
@@ -118,7 +114,7 @@ class AddMemberToList extends Component {
               <div className="modal-content">
                 <div className="modal-header">
                   <h4 className="modal-title">Add Member</h4>
-                  <button type="button" className="close" onClick = {this.hideModal}
+                  <button type="button" className="close"
                   data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 
