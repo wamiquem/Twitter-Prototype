@@ -56,6 +56,8 @@ app.use(
 
     kafka.make_request('hashtag_topic',{type:"inserthashtag",message: request.body}, function(err,results){
       console.log('in result');
+
+      
       console.log(results);
       if (err){
           console.log("Inside err");

@@ -18,8 +18,14 @@ function handle_request(info, callback) {
 exports.handle_request = handle_request;
 function inserthashtag(id, callback) {
   console.log("Inside Kafka Backend Get Inserthashtag service");
+<<<<<<< Updated upstream
   hashtag.count({
     hashtag: id.hashtag,
+=======
+
+  
+  hashtag.find({ hashtag: "#postman"
+>>>>>>> Stashed changes
     
     tweetby: { $in : [id.tweetby]} }).then(function(value, err){
       console.log(value,"value")
