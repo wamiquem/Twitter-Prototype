@@ -41,6 +41,10 @@ TweetsSchema = new Schema({
   replies: {
     type: Array,
     default: []
+  },
+  views: {
+    type: Number,
+    default: 0
   }
 });
 

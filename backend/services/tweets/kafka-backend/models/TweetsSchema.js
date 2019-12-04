@@ -7,11 +7,11 @@ TweetsSchema = new Schema({
     type: String,
     default: ""
   },
-  user_username:{
-    type: String,
+  user_username: {
+    type: String
   },
-  user_image:{
-    type: String,
+  user_image: {
+    type: String
   },
   content: {
     type: String,
@@ -47,6 +47,10 @@ TweetsSchema = new Schema({
   replies: {
     type: Array,
     default: []
+  },
+  views: {
+    type: Number,
+    default: 0
   }
 });
 
