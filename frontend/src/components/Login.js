@@ -97,10 +97,10 @@ class Login extends Component {
         return(
             <div className = "login-page">
                 {redirectVar}
-                <nav class="navbar navbar-custom">
-                <a class="navbar-brand" href="#">
+                <nav className="navbar navbar-custom">
+                <a className="navbar-brand" href="#">
                     <img src={twitterLogo} height="30" alt="twitter logo"></img>
-                    {` Home`}
+                    Home
                 </a>
                 </nav>
                 
@@ -109,7 +109,7 @@ class Login extends Component {
                         <div className="login-form">
                             <div className="main-div">
                                 <div className="panel">
-                                    <h2 class="modal-title">Log in to Twitter</h2>
+                                    <h2 className="modal-title">Log in to Twitter</h2>
                                 </div>
                                 <div className="form-group">
                                     <h6 style= {{color:"red"}}>{this.state.message}</h6>

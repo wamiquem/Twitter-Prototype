@@ -88,7 +88,7 @@ class ProfileModal extends Component {
                                         <label htmlFor="upload">
                                             <div class = "user-profile-image">
                                                 <img className="float-left img-thumbnail" id="pic" 
-                                                src = {this.props.profile.imageUrl} alt="Responsive image"></img>
+                                                src = {this.props.profile.imageUrl} alt=""></img>
                                             </div>
                                         </label>
                                         <input type="file" id="upload" onChange= {this.imageChangeHandler}/>
@@ -110,7 +110,7 @@ class ProfileModal extends Component {
                                         <label className="active" for="username">Username</label>
                                     </div>
                                     <div className="md-form">
-                                        <input pattern="\d*" minlength="10" maxlength="10" id="phone" name="phone" className="form-control validate"
+                                        <input type="number" min="1" step="1" id="phone" name="phone" className="form-control validate"
                                         onChange = {this.inputChangeHandler} required 
                                         value={this.props.profile.phone}/>
                                         <label className="active" for="phone">Phone</label>
@@ -134,7 +134,7 @@ class ProfileModal extends Component {
                                     <h6 style= {{color:"red"}}>{this.state.invalidZipMessage}</h6>
                                     <div className="md-form">
                                         <label className="active" for="zip">Zip</label>
-                                        <input type="text" id="zip" name="zip" className="form-control"
+                                        <input type="number" min="1" step="1" id="zip" name="zip" className="form-control"
                                         onChange = {this.inputChangeHandler} required value={this.props.profile.zip}/>
                                     </div>
                                 </div>

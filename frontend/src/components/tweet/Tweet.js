@@ -60,7 +60,7 @@ class Tweet extends Component {
             const tweetUsers = JSON.parse(localStorage.getItem('tweetUsers'));
             var retweetLeaders = tweetUsers.filter(user=> this.props.tweet.retweeted_by.includes(user));
             if(retweetLeaders.length >0 && retweetLeaders.length === 1){
-                if(retweetLeaders[0]!= localStorage.getItem('id')){
+                if(retweetLeaders[0]!== localStorage.getItem('id')){
                     var leaderUsername = JSON.parse(localStorage.getItem('tweetUsersDetails'))[retweetLeaders[0]]
                     this.setState(
                         {
@@ -165,29 +165,29 @@ class Tweet extends Component {
     render(){
         const { photoIndex, isOpen } = this.state;
         var likedIcon = (
-            <img onClick={this.handleLike} className= "twitter-icon" src={unlikeIcon}/>
+            <img onClick={this.handleLike} alt="" className= "twitter-icon" src={unlikeIcon}/>
         );
         if(this.state.liked){
             likedIcon = (
-                <img onClick={this.handleUnlike} className= "twitter-icon" src={likeIcon}/>
+                <img onClick={this.handleUnlike} alt="" className= "twitter-icon" src={likeIcon}/>
             )
         };
 
         var bookmarkedIcon = (
-            <img onClick={this.handleBookmark} className= "twitter-icon" src={unbookmarkIcon}/>
+            <img onClick={this.handleBookmark} alt="" className= "twitter-icon" src={unbookmarkIcon}/>
         );
         if(this.state.bookmarked){
             bookmarkedIcon = (
-                <img onClick={this.handleUnbookmark} className= "twitter-icon" src={bookmarkIcon}/>
+                <img onClick={this.handleUnbookmark} alt="" className= "twitter-icon" src={bookmarkIcon}/>
             )
         };
 
         var retweetedIcon = (
-            <img onClick={this.handleRetweet} className= "twitter-icon" src={unretweetIcon}/>
+            <img onClick={this.handleRetweet} alt="" className= "twitter-icon" src={unretweetIcon}/>
         );
         if(this.state.retweeted){
             retweetedIcon = (
-                <img onClick={this.handleUnretweet} className= "twitter-icon" src={retweetIcon}/>
+                <img onClick={this.handleUnretweet} alt="" className= "twitter-icon" src={retweetIcon}/>
             )
         };
 
@@ -195,16 +195,16 @@ class Tweet extends Component {
             <div className = "tweet-box">
                 <p>{this.state.retweetText}</p>
                 <div style={{display:'flex'}}>
-                    <div class = "tweet-profile-image">
+                    <div className = "tweet-profile-image">
                         <img className="float-left img-thumbnail" id="pic" 
-                        src = {this.props.tweet.user_image} alt="Responsive image"></img>
+                        src = {this.props.tweet.user_image} alt=""></img>
                     </div>
                     <div style={{marginLeft:'10px'}}>
                         <div style={{display:'flex'}}>
                             <Link to={`/user/${this.props.tweet.user_id}`}>{`@${this.props.tweet.user_username}`}</Link>
                             <p>{` - ${this.props.tweet.created_date_time}`}</p>
                             {this.props.tweet.user_id === localStorage.getItem('id') ? 
-                            <img onClick={this.handleDelete} style={{marginLeft:'30px'}} className= "twitter-icon" src={deleteIcon}/> :
+                            <img alt="" onClick={this.handleDelete} style={{marginLeft:'30px'}} className= "twitter-icon" src={deleteIcon}/> :
                             null}
                         </div>
                         {/* <p style={{verticalAlign: 'top'}}>{this.props.tweet.content}</p> */}
@@ -213,9 +213,9 @@ class Tweet extends Component {
                             {
                                 this.props.tweet.images_path ? 
                                 this.props.tweet.images_path.map((image_path,index)=>(
-                                    <div class="tweet-add-image" key={index}>
-                                        <img class="rounded float-left img-thumbnail" 
-                                        src= {image_path} alt="Responsive image"/>
+                                    <div className="tweet-add-image" key={index}>
+                                        <img className="rounded float-left img-thumbnail" 
+                                        src= {image_path} alt=""/>
                                     </div>
                                 ))
                                 :
@@ -229,7 +229,7 @@ class Tweet extends Component {
                                 <b>{this.props.tweet.liked_by.length}</b>
                             </div>
                             <div style={{display:'flex'}}>
-                                <img onClick={this.showReplyModal} className= "twitter-icon" src={replyIcon}/>
+                                <img alt="" onClick={this.showReplyModal} className= "twitter-icon" src={replyIcon}/>
                                 <b>{this.props.tweet.replies.length}</b>
                             </div>
                             <div style={{display:'flex'}}>
@@ -245,8 +245,13 @@ class Tweet extends Component {
                 </div>
                 {
                     this.props.tweet.replies ? 
-                    this.props.tweet.replies.filter(reply=> reply.user_id === localStorage.getItem('id'))
-                    .map(reply =>(
+                    // this.props.tweet.replies.filter(reply=> reply.user_id === localStorage.getItem('id'))
+                    // .map(reply =>(
+                    //     <ReplyBox key={reply.user_id} reply={reply}/>
+                    // ))
+                    // :
+                    // null
+                    this.props.tweet.replies.map(reply =>(
                         <ReplyBox key={reply.user_id} reply={reply}/>
                     ))
                     :

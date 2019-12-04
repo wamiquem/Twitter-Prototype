@@ -38,7 +38,6 @@ class Signup extends Component {
 
     //submit Login handler to send a request to the node backend
     submitSignup = (e) => {
-        var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const username = `${this.state.fname}${this.state.lname}${Math.floor((Math.random() * 1000) + 1)}`;
@@ -107,28 +106,28 @@ class Signup extends Component {
                                     <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                     <div className="md-form">
                                         <input type="text" id="fname" name="fname" className="form-control validate"
-                                        onChange = {this.changeHandler} required autoFocus="true"/>
-                                        <label for="fname">First name</label>
+                                        onChange = {this.changeHandler} required/>
+                                        <label htmlFor="fname">First name</label>
                                     </div>
                                     <div className="md-form">
                                         <input type="text" id="lname" name="lname" className="form-control validate"
                                         onChange = {this.changeHandler} required/>
-                                        <label for="lname">Last name</label>
+                                        <label htmlFor="lname">Last name</label>
                                     </div>
                                     <div className="md-form">
                                         <input type="text" id="email" name="email" className="form-control validate"
                                         onChange = {this.changeHandler} required/>
-                                        <label for="email">Email</label>
+                                        <label htmlFor="email">Email</label>
                                     </div>
                                     <div className="md-form">
                                         <input type="password" id="password" name="password" className="form-control validate"
                                         onChange = {this.changeHandler} required/>
-                                        <label for="password">Password</label>
+                                        <label htmlFor="password">Password</label>
                                     </div>
                                     <div className="md-form">
-                                        <input type="text" id="phone" name="phone" className="form-control validate"
+                                        <input type="number" min="1" step="1" id="phone" name="phone" className="form-control validate"
                                         onChange = {this.changeHandler} required/>
-                                        <label for="phone">Phone</label>
+                                        <label htmlFor="phone">Phone</label>
                                     </div>
                                 </div>
                                 <div className="modal-footer">

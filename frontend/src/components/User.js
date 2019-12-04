@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import locationIcon from '../images/location-icon.png'
 import calendarIcon from '../images/calendar-icon.png'
 import ProfileModal from './ProfileModal';
-import {Link} from 'react-router-dom';
 import TweetsList from '../components/tweet/TweetsList'
 import {connect} from 'react-redux';
 import {getProfile} from '../redux/actions/profileAction';
@@ -151,7 +150,7 @@ class User extends Component {
                             <div style={{display:'flex', justifyContent:'space-between'}}>
                                 <div className = "user-profile-image">
                                     <img className="float-left img-thumbnail" id="pic" 
-                                        src = {this.props.profile.imageUrl} alt="Responsive image"></img>
+                                        src = {this.props.profile.imageUrl} alt=""></img>
                                 </div>
                                 <div className="user-page-button">
                                     {activeButton}

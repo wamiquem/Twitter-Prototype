@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 
-class memberships extends Component {
+class Memberships extends Component {
     constructor(props){
         super(props);
 
@@ -87,4 +87,4 @@ class memberships extends Component {
     }
 }
 
-export default memberships;
+export default Memberships;

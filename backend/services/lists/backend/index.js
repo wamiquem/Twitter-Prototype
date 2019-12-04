@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const {frontendURL} = require('./config/config');
 
-var message = require('./routes/message');
+var lists = require('./routes/lists');
 
 //use cors to allow cross origin resource sharing
 app.use(cors({ origin: `${frontendURL}`, credentials: true }));
@@ -24,13 +24,13 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json());
 
-app.use('/message', message);
+app.use('/lists', lists);
 
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
 //start your server on port 3101
-app.listen(3102);
-console.log("Server Listening on port 3102.");
+app.listen(3105);
+console.log("Server Listening on port 3105.");
 
 module.exports = app;

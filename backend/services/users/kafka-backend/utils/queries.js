@@ -115,7 +115,7 @@ queries.removeFollower = (users, successcb, failurecb) => {
 }
 
 queries.getAllMatchingUsers = (username, successcb, failurecb) => {
-    let sql = `SELECT id, username, image
+    let sql = `SELECT id, username, fname, lname, image
     FROM users WHERE username like '%${username}%'`;
     let values = [username];
     

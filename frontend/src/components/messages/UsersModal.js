@@ -110,7 +110,7 @@ class UsersModal extends Component {
                     onClick = {() => this.addConversation(user.id)}>
                       <div class = "profile-image">
                           <img className="float-left img-thumbnail" id="pic" 
-                          src = {user.image} alt="Responsive image"></img>
+                          src = {user.image} alt=""></img>
                       </div>
                       <p>{`@${user.username}`}</p>                        
                     </div>

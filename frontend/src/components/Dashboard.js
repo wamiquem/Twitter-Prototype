@@ -103,7 +103,23 @@ class Dashboard extends Component{
               }
             ]
                     },
-                    retweetsChartData:{},
+                    retweetsChartData:{
+                      labels: retweetLabels,
+            datasets:[
+              {
+                label:'Views',
+                data:retweetData,
+                backgroundColor:[
+                  'rgba(255, 99, 132, 0.6)',
+                  'rgba(54, 162, 235, 0.6)',
+                  'rgba(255, 206, 86, 0.6)',
+                  'rgba(75, 192, 192, 0.6)',
+                  'rgba(153, 102, 255, 0.6)',
+                  'rgba(255, 159, 64, 0.6)',
+                ]
+              }
+            ]
+                    },
                     hourlyChartData:{
                         labels: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
             datasets:[
@@ -248,118 +264,157 @@ class Dashboard extends Component{
   
     render(){
       return (
-        <div className="chart">
+        <div>
+          <div className="container">
+            <div className="dashboard-view">
+              <div className="main-div">
+              <h5 className="font-weight-bold" style={{marginLeft:'10px'}}>Dashboard</h5>
+              <hr/>
+                <div className="chart">
+                {/* Likes Bar Graph */}
+                  <Bar
+                    data={this.state.likesChartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'10 Most liked tweets ',
+                        fontSize:25
+                      },
+                      scales: {
+                        yAxes:[
+                          {
+                            ticks:{
+                              stepSize:1
+                            }
+                          }
+                        ]
+                      }
+                    }}
+                  />
 
-        {/* Likes Bar Graph */}
-          <Bar
-            data={this.state.likesChartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'10 Most liked tweets ',
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          />
+                  {/* Views Bar Graph */}
+                  <Bar
+                    data={this.state.viewsChartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'10 Most viewed tweets ',
+                        fontSize:25
+                      },
+                      scales: {
+                        yAxes:[
+                          {
+                            ticks:{
+                              stepSize:1
+                            }
+                          }
+                        ]
+                      }
+                    }}
+                  />
 
-          {/* Views Bar Graph */}
-          <Bar
-            data={this.state.viewsChartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'10 Most viewed tweets ',
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          />
+                  {/* Retweets Bar Graph */}
+                  <Bar
+                    data={this.state.retweetsChartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'10 Most retweeted tweets ',
+                        fontSize:25
+                      },
+                      scales: {
+                        yAxes:[
+                          {
+                            ticks:{
+                              stepSize:1
+                            }
+                          }
+                        ]
+                      }
+                    }}
+                  />
 
-          {/* Retweets Bar Graph */}
-          <Bar
-            data={this.state.retweetsChartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'10 Most retweeted tweets ',
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          />
+                  {/* Hourly Line Graph */}
+                  <Line
+                    data={this.state.hourlyChartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'Tweets per Hour',
+                        fontSize:25
+                      },
+                      scales: {
+                        yAxes:[
+                          {
+                            ticks:{
+                              stepSize:1
+                            }
+                          }
+                        ]
+                      }
+                    }}
+                  />
 
-          {/* Hourly Line Graph */}
-          <Line
-            data={this.state.hourlyChartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'Tweets per Hour',
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          />
+                  {/* Daily Line Graph */}
+                  <Line
+                    data={this.state.dailyChartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'Tweets per Day of the Week',
+                        fontSize:25
+                      },
+                      scales: {
+                        yAxes:[
+                          {
+                            ticks:{
+                              stepSize:1
+                            }
+                          }
+                        ]
+                      }
+                    }}
+                  />
 
-          {/* Daily Line Graph */}
-          <Line
-            data={this.state.dailyChartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'Tweets per Day of the Week',
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          />
-
-          {/* Monthly Line Graph */}
-          <Line
-            data={this.state.monthlyChartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'Tweets per Month',
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          />
-  
-          {/* <Pie
-            data={this.state.chartData}
-            options={{
-              title:{
-                display:this.props.displayTitle,
-                text:'Largest Cities In '+this.props.location,
-                fontSize:25
-              },
-              legend:{
-                display:this.props.displayLegend,
-                position:this.props.legendPosition
-              }
-            }}
-          /> */}
+                  {/* Monthly Line Graph */}
+                  <Line
+                    data={this.state.monthlyChartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'Tweets per Month',
+                        fontSize:25
+                      },
+                      scales: {
+                        yAxes:[
+                          {
+                            ticks:{
+                              stepSize:1
+                            }
+                          }
+                        ]
+                      }
+                    }}
+                  />
+          
+                  {/* <Pie
+                    data={this.state.chartData}
+                    options={{
+                      title:{
+                        display:this.props.displayTitle,
+                        text:'Largest Cities In '+this.props.location,
+                        fontSize:25
+                      },
+                      legend:{
+                        display:this.props.displayLegend,
+                        position:this.props.legendPosition
+                      }
+                    }}
+                  /> */}
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
       )
     }

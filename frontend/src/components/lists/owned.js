@@ -1,9 +1,8 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {listsUrl} from '../../config';
 
-class owned extends Component {
+class Owned extends Component {
     constructor(props){
         super(props);
 
@@ -16,18 +15,18 @@ class owned extends Component {
     }
 
     componentDidMount(){
-        fetch(`${userUrl}/lists/UserLists/?ownerId=`,{
+        fetch(`${listsUrl}/lists/UserLists/?ownerId=${this.props.match.params.userId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             credentials: 'include'
         })
         .then(res => res.json())
         .then(data => {
             let searchMessage = "";
-
+            console.log("data000===", data);
             const lists = data.lists;
             if(lists.length === 0){
                 searchMessage = "This user does not have any list."
@@ -53,41 +52,43 @@ class owned extends Component {
                 {navMember}
             </ul>
         );
-
+        console.log("this.state==", this.state);
         return(
             <div>
-                <div>
-                    <h5>Lists</h5>
-                    <Link to="/lists/createList">Create List</Link>
-                    {navBar}
-                </div>
-                <div>
-                {
-                (this.state.lists.length!==0) ? 
-                  this.state.lists.map(list => (
-                    <div style={{display:'flex'}} className="user-box" key={list.listId}
-                    onClick = {() => this.addConversation(list.listId)}>
-                      <div class = "profile-image">
-                          <img className="float-left img-thumbnail" id="pic" 
-                          src = {list.listOwnerImage} alt="Responsive image"></img>
-                      </div>
-                      <p>{`${list.listOwnerName}`}</p>
-                      &nbsp;
-                      <p>{`@${list.listOwnerUserName}`}</p><br/>
-                      <p>{`${list.listName}`}</p><br/>
-                      <p>{`${list.listDescription}`}</p><br/>
-                      <p>{`${list.listMembers.length} members`}</p>
-                      &nbsp;
-                      <p>{`${list.listSubscribers.length} subscribers`}</p>
+                <div className="container">
+                    <div className="list-form">
+                        <div className="main-div">
+                            <h5>Lists</h5>
+                            <Link to="/lists/createList">Create List</Link>
+                            {navBar}
+                
+                
+                                {
+                                (this.state.lists.length!==0) ? 
+                                this.state.lists.map(list => (
+                                    <div style={{display:'flex'}} className="list-box">
+                                        <div class = "profile-image">
+                                            <img className="float-left img-thumbnail" id="pic" 
+                                            src = "" alt=""></img>
+                                        </div>
+                                        <div>
+                                            <p>{`@${list.listOwnerUserName}`}</p>
+                                            <p>{`${list.listName}`}</p>
+                                            <p>{`${list.listDescription}`}</p>
+                                            <p>{`${list.listMembers.length} members`}</p>
+                                            <p>{`${list.listSubscribers.length} subscribers`}</p>
+                                        </div>   
+                                    </div>
+                                    )
+                                ):
+                                    <p>{this.state.searchMessage}</p>
+                                }
+                        </div>
                     </div>
-                    )
-                  ):
-                    <p>{this.state.searchMessage}</p>
-                }
                 </div>
             </div>
         )
     }
 }
 
-export default owned;
+export default Owned;

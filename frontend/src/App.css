@@ -360,11 +360,10 @@ textarea:active {
   border-bottom: 1px solid lightgrey;
 }
 
-.reply-box p{ 
+/* .reply-box p{ 
   line-height: 1em; 
-  /* overflow: hidden; */
   margin: 10px;
-}
+} */
 
 .messages-page .main-div {
   background: #ffffff none repeat scroll 0 0;
@@ -587,4 +586,120 @@ input[type="search"] {
   width: auto;
   height: 100%;
   padding: 0
+}
+
+.search-section .custom-btn{
+  margin-top: 10px;
+  margin-bottom: 10px
+}
+
+.search-section .user-box .profile-image{
+  height: 40px;
+  width: 40px
+}
+
+.search-section .user-box .profile-image .img-thumbnail {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.search-section .user-box h6{
+  margin: 0;
+}
+
+.search-section .user-box{
+  height: 50px;
+  display: flex;
+  color: gray;
+}
+
+.search-section .hashtag-box{
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+  color: black
+}
+
+.hashtag-view-form .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+  padding-bottom: 10px
+}
+
+canvas{
+  width: 600px !important;
+  height: 300px !important;
+}
+
+.dashboard-view .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+  padding-bottom: 10px
+}
+
+.bookmark-view-form .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+  padding-bottom: 10px
+}
+
+.list-form .main-div {
+  background: #ffffff none repeat scroll 0 0;
+  max-width: 55%;
+  padding: 20px 0px 0px 0px;
+  align-content: center;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-right: 0;
+  border: 1px solid #15141436;
+  padding-bottom: 10px
+}
+
+.list-box .profile-image {
+  height: 50px; 
+  width: 50px;
+  /* padding-left: 10px; */
+  margin-block-end: 35px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0
+}
+
+.list-box .profile-image .img-thumbnail{
+  width: 100%;
+  height: 100%;
+  padding: 0
+}
+
+.list-box{
+  cursor: pointer;
+  background-color: #f5f8fa;
+  border: 1px solid lightgrey
+}
+
+.list-box p{
+  height: 2em; 
+  line-height: 1em; 
+  overflow: hidden;
+  margin: 10px;
 }

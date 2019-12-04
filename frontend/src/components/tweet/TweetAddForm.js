@@ -60,7 +60,7 @@ class TweetAddForm extends Component {
 
     handleFileUpload = (e) => {
         if(!this.checkMimeType(e)){
-            alert("Please upload png/jpeg file only");
+            alert("Please upload png/jpeg/gif file only");
         }
 
         if(!this.maxSelectFile(e)){
@@ -93,10 +93,18 @@ class TweetAddForm extends Component {
 
     submitTweet = e => {
         e.preventDefault();
+        var tokens = this.state.content.split(/\s/);
+        
+        var filteredTokens = tokens.filter(token => token.startsWith("#"))
+        var hashtag = "";
+        if(filteredTokens.length>0){
+            hashtag = filteredTokens[0]
+        }
         const data = {
             content: this.state.content,
             images : this.state.images,
             id: localStorage.getItem('id'),
+            hashtag: hashtag,
             username: localStorage.getItem('username'),
             image: localStorage.getItem('image'),
             token: localStorage.getItem('token')
@@ -122,13 +130,13 @@ class TweetAddForm extends Component {
                             <div style={{display:'flex'}}>
                                 <div class = "tweet-profile-image">
                                     <img className="float-left img-thumbnail" id="pic" 
-                                        src = {localStorage.getItem('image')} alt="Responsive image"></img>
+                                        src = {localStorage.getItem('image')} alt=""></img>
                                 </div>
                                 <div>
                                     <form onSubmit = {this.submitTweet} >
                                         <div style={{paddingBottom:'10px', paddingLeft:'10px'}}>
                                             <textarea required autoFocus class="form-control desc-textarea" style={{borderColor:'white'}}
-                                            rows="3" name="content" onChange = {this.changeHandler} maxlength="280"
+                                            rows="3" name="content" onChange = {this.changeHandler} maxLength="280"
                                             value = {this.state.content} placeholder="What's happening?"/>
                                         </div>
                                         <b style={{float: 'right'}}>{this.state.usedCharacters}/280</b>

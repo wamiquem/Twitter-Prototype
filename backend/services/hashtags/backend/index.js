@@ -112,10 +112,7 @@ app.use(
       }else{
           console.log("Inside else");
           console.log("results from kafka",results)
-          response.json({
-                  dataFromKafka:results
-              });
-              response.end();
+          response.status(200).json({success: true, results: results});
           } 
   });
   });
@@ -141,6 +138,6 @@ app.use(
   //         } 
   // });
   // });
-app.listen(3001);
-console.log("Server Listening on port 3001");
+app.listen(3104);
+console.log("Server Listening on port 3104");
   

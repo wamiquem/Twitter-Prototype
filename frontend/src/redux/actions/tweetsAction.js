@@ -46,7 +46,8 @@ export const createTweet = data => dispatch => {
             user_image: data.image,
             images_path: imagesUrl,
             content: data.content,
-            created_date_time: new Date().toLocaleString()
+            created_date_time: new Date().toLocaleString(),
+            hashtag: data.hashtag
         }
         fetch(`${tweetUrl}/tweet/tweet`, {
             method: 'POST',

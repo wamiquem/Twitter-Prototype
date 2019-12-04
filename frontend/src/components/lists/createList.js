@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import {Redirect} from 'react-router';
-import {userUrl} from '../config';
+import {listsUrl} from '../../config';
 
 //create the Create List Component
-class createList extends Component {
+class CreateList extends Component {
      //call the constructor method
      constructor(props){
         //Call the constrictor of Super class i.e The Component
@@ -42,11 +42,12 @@ class createList extends Component {
             listName: this.state.listName,
             listDescription: this.state.listDescription,
             listOwnerId: localStorage.getItem('id'),
-            listOwnerName: localStorage.getItem('Name'),
-            listOwnerUserName: localStorage.getItem('username')
+            // listOwnerName: localStorage.getItem('Name'),
+            listOwnerUserName: localStorage.getItem('username'),
+            listOwnerName: "Saumilllllll"
         }
 
-        fetch(`${userUrl}/lists/createList`, {
+        fetch(`${listsUrl}/lists/createList`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json,  text/plain, */*',
@@ -125,4 +126,4 @@ class createList extends Component {
     }
 }
 
-export default createList;
+export default CreateList;

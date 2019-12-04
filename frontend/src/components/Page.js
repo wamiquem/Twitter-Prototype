@@ -5,6 +5,10 @@ import Sidebar from './Sidebar';
 import Home from './Home';
 import Messages from './messages/Messages';
 import User from './User';
+import Hashtag from './Hashtag';
+import Dashboard from './Dashboard';
+import Bookmark from './Bookmark';
+import Lists from './lists/Lists'
 
 class Page extends Component {
 
@@ -18,12 +22,16 @@ class Page extends Component {
             <div>
                 {redirectVar}
                 
-                <Sidebar options = {['Home', 'Messages', 'Bookmarks', 'Profile']}/>
+                <Sidebar options = {['Home', 'Messages', 'Bookmark', 'Profile', 'Lists', 'Dashboard']}/>
                 <div >
                   <Switch>
                       <Route path="/home" component={Home}/>
                       <Route path="/messages" component={Messages}/>
-                      <Route path="/user/:userId" component={User}/>
+                      <Route key= {this.props.location.pathname} path="/user/:userId" component={User}/>
+                      <Route key= {this.props.location.pathname} path="/hashtag/:hashtag" component={Hashtag}/>
+                      <Route path="/dashboard" component={Dashboard}/>
+                      <Route path="/bookmark" component={Bookmark}/>
+                      <Route path="/lists/:id" component={Lists}/>
                   </Switch>
                 </div>
                 {/* <div class="vl"></div>                 */}

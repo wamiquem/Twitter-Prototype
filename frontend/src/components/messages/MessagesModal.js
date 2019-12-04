@@ -48,7 +48,7 @@ class MessagesModal extends Component {
         //prevent page from refresh
         e.preventDefault();
         if(this.props.conversation._id){
-            var conversation = {
+            let conversation = {
                 _id: this.props.conversation._id,
                 message: {
                     senderName: localStorage.getItem('username'),
@@ -58,7 +58,7 @@ class MessagesModal extends Component {
             }
             this.props.updateConversation(conversation);
         } else {
-            var conversation = {
+            let conversation = {
                 users: this.props.conversation.users,
                 message: {
                     senderName: localStorage.getItem('username'),

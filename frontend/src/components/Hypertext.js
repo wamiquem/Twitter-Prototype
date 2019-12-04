@@ -14,7 +14,7 @@ export default class HyperText extends Component {
 
         if (token.match(/^http\:\//) || token.match(/^https\:\//)){
             return (
-                <a href={`${token}`} key={index} target="_blank">
+                <a href={`${token}`} key={index} target="_blank" rel="noopener noreferrer">
                     {token}{maybeSpace}
                 </a>
             )
@@ -27,15 +27,17 @@ export default class HyperText extends Component {
                   {token}{maybeSpace}
                 </Link>
               );
-        } else if (token.startsWith("@")){
-            return (
-                <Link
-                  key={index}
-                  to={`/user/${token}`}>
-                  {token}{maybeSpace}
-                </Link>
-              );
-        } else {
+        } 
+        // else if (token.startsWith("@")){
+        //     return (
+        //         <Link
+        //           key={index}
+        //           to={`/user/${token}`}>
+        //           {token}{maybeSpace}
+        //         </Link>
+        //       );
+        // } 
+        else {
             return token + maybeSpace;
           }
       });

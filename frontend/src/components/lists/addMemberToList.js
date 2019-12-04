@@ -3,7 +3,7 @@ import {Redirect} from 'react-router';
 import {userUrl} from '../config';
 
 //create the Create List Component
-class addMemberToList extends Component {
+class AddMemberToList extends Component {
      //call the constructor method
      constructor(props){
         //Call the constrictor of Super class i.e The Component
@@ -158,4 +158,4 @@ class addMemberToList extends Component {
     }
 }
 
-export default addMemberToList;
+export default AddMemberToList;

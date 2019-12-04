@@ -92,13 +92,7 @@ router.get('/UserLists', function(req, res){
     kafka.make_request("lists", {type: "getUserLists", message: req.query.ownerId},
         function(err, result) {
             if(result){
-                let lists = result.lists.map(list => {
-                    return {
-                        listId: list.listId,
-                        listName: list.listName
-                    }
-                });
-                res.status(200).json({success: true, lists : lists});
+                res.status(200).json({success: true, lists : result});
             }else{
                 res.status(err.statusCode).json(err.info);
             }

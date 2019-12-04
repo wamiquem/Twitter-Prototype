@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
 // import burger from '../images/main_page_burger.jpg'
@@ -13,21 +13,21 @@ function Landing() {
     return (
         <div className="container-fluid container-margin">
         {redirectVar}
-            <div class = "login-image">
-                <img width = '100%' height = 'auto' src={landingLeft} alt="Responsive image"></img>
+            <div className = "login-image">
+                <img width = '100%' height = 'auto' src={landingLeft} alt=""></img>
             </div>
             
-            <div class = "login-links">
+            <div className = "login-links">
                 <p>See what's happening in the world right now</p>
                 <Link to="/signup">
-                <button className="signup-btn">
-                    Sign up
-                </button>
+                    <button className="signup-btn">
+                        Sign up
+                    </button>
                 </Link>
                 <div className="separator"/>
                 <Link to="/login">
-                <button className="login-btn">
-                    Log in
+                    <button className="login-btn">
+                        Log in
                     </button>
                 </Link>
             </div>

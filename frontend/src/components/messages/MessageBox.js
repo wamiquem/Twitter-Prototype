@@ -70,7 +70,7 @@ class MessageBox extends Component {
                 <div style={{display:'flex'}} className="message-box" onClick={this.showMessageModal}>
                     <div class = "profile-image">
                         <img className="float-left img-thumbnail" id="pic" 
-                        src = {this.state.image} alt="Responsive image"></img>
+                        src = {this.state.image} alt=""></img>
                     </div>
                     <div>
                         <div style={{display:'flex'}}>
