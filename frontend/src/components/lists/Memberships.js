@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
+import {listsUrl} from '../../config';
 import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 
@@ -16,11 +17,11 @@ class Memberships extends Component {
     }
 
     componentDidMount(){
-        fetch(`${userUrl}/lists/UserMemberLists/?ownerId=`,{
+        fetch(`${listsUrl}/lists/UserMemberLists/?userId=${this.props.match.params.userId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             credentials: 'include'
         })
@@ -43,9 +44,8 @@ class Memberships extends Component {
         let navOwned = null;
         let navSubscribed = null;
 
-        navOwned = <li><Link to="/lists/owned">Owned</Link></li>;
-        navSubscribed = <li><Link to="/lists/subscriptions">Subscribed</Link></li>;
-
+        navOwned = <li><Link to={`/lists/owned/${this.props.match.params.userId}`}>Owned</Link></li>;
+        navSubscribed = <li><Link to={`/lists/subscriptions/${this.props.match.params.userId}`}>Subscribed</Link></li>;
         navBar = (
             <ul className="nav navbar-nav navbar-right ">
                 {navOwned}
@@ -56,31 +56,38 @@ class Memberships extends Component {
 
         return(
             <div>
-                <div>
-                    <h5>Lists</h5>
-                    <Link to="/lists/createList">Create List</Link>
-                    {navBar}
-                </div>
-                <div>
-                {
-                (this.state.lists.length!==0) ? 
-                  this.state.lists.map(list => (
-                    <div style={{display:'flex'}} className="user-box" key={list.listId}
-                    onClick = {() => this.addConversation(list.listId)}>
-                      <div class = "profile-image">
-                          <img className="float-left img-thumbnail" id="pic" 
-                          src = {list.listOwnerImage} alt="Responsive image"></img>
-                      </div>
-                      <p>{`${list.listOwnerName}`}</p>
-                      &nbsp;
-                      <p>{`@${list.listOwnerUserName}`}</p><br/>
-                      <p>{`${list.listName}`}</p><br/>
-                      <p>{`${list.listDescription}`}</p>
+                <div className="container">
+                    <div className="list-form">
+                        <div className="main-div">
+                            <h5>Lists</h5>
+                            <Link to="/lists/createList">Create List</Link>
+                            {navBar}
+                
+                
+                                {
+                                (this.state.lists.length!==0) ? 
+                                this.state.lists.map(list => (
+                                    <Link to={`/lists/listTweetFeed/${list._id}`} key={list._id}>
+                                        <div style={{display:'flex'}} className="list-box">
+                                            <div class = "profile-image">
+                                                <img className="float-left img-thumbnail" id="pic" 
+                                                src = "" alt=""></img>
+                                            </div>
+                                            <div>
+                                                <p>{`@${list.listOwnerUserName}`}</p>
+                                                <p>{`${list.listName}`}</p>
+                                                <p>{`${list.listDescription}`}</p>
+                                                <p>{`${list.listMembers.length} members`}</p>
+                                                <p>{`${list.listSubscribers.length} subscribers`}</p>
+                                            </div>   
+                                        </div>
+                                    </Link>
+                                    )
+                                ):
+                                    <p>{this.state.searchMessage}</p>
+                                }
+                        </div>
                     </div>
-                    )
-                  ):
-                    <p>{this.state.searchMessage}</p>
-                }
                 </div>
             </div>
         )

@@ -42,9 +42,8 @@ class CreateList extends Component {
             listName: this.state.listName,
             listDescription: this.state.listDescription,
             listOwnerId: localStorage.getItem('id'),
-            // listOwnerName: localStorage.getItem('Name'),
-            listOwnerUserName: localStorage.getItem('username'),
-            listOwnerName: "Saumilllllll"
+            listOwnerName: localStorage.getItem('Name'),
+            listOwnerUserName: localStorage.getItem('username')
         }
 
         fetch(`${listsUrl}/lists/createList`, {

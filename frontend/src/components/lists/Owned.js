@@ -42,8 +42,8 @@ class Owned extends Component {
         let navSubscribed = null;
         let navMember = null;
 
-        navSubscribed = <li><Link to="/lists/subscriptions">Subscribed</Link></li>;
-        navMember = <li><Link to="/lists/memberships">Member</Link></li>;
+        navSubscribed = <li><Link to={`/lists/subscriptions/${this.props.match.params.userId}`}>Subscribed</Link></li>;
+        navMember = <li><Link to={`/lists/memberships/${this.props.match.params.userId}`}>Member</Link></li>;
 
         navBar = (
             <ul className="nav navbar-nav navbar-right ">
@@ -66,19 +66,21 @@ class Owned extends Component {
                                 {
                                 (this.state.lists.length!==0) ? 
                                 this.state.lists.map(list => (
-                                    <div style={{display:'flex'}} className="list-box">
-                                        <div class = "profile-image">
-                                            <img className="float-left img-thumbnail" id="pic" 
-                                            src = "" alt=""></img>
+                                    <Link to={`/lists/listTweetFeed/${list._id}`} key={list._id}>
+                                        <div style={{display:'flex'}} className="list-box">
+                                            <div class = "profile-image">
+                                                <img className="float-left img-thumbnail" id="pic" 
+                                                src = "" alt=""></img>
+                                            </div>
+                                            <div>
+                                                <p>{`@${list.listOwnerUserName}`}</p>
+                                                <p>{`${list.listName}`}</p>
+                                                <p>{`${list.listDescription}`}</p>
+                                                <p>{`${list.listMembers.length} members`}</p>
+                                                <p>{`${list.listSubscribers.length} subscribers`}</p>
+                                            </div>   
                                         </div>
-                                        <div>
-                                            <p>{`@${list.listOwnerUserName}`}</p>
-                                            <p>{`${list.listName}`}</p>
-                                            <p>{`${list.listDescription}`}</p>
-                                            <p>{`${list.listMembers.length} members`}</p>
-                                            <p>{`${list.listSubscribers.length} subscribers`}</p>
-                                        </div>   
-                                    </div>
+                                    </Link>
                                     )
                                 ):
                                     <p>{this.state.searchMessage}</p>

@@ -30,6 +30,9 @@ const listsSchema = mongoose.Schema({
             },
             memberName : {
                 type : String
+            },
+            memberImage : {
+                type : String
             }
         }
     ],

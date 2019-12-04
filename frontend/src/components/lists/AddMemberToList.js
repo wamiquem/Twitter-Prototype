@@ -19,6 +19,7 @@ class AddMemberToList extends Component {
         //Bind the handlers to this class
         this.changeHandler = this.changeHandler.bind(this);
         this.searchUser = this.searchUser.bind(this);
+        this.addMember = this.addMember.bind(this);
     }
   
     changeHandler(e) {
@@ -72,13 +73,15 @@ class AddMemberToList extends Component {
         .catch(err => console.log(err));
       }
 
-      addMember = id => e => {
+      addMember = (id, username, image) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
 
         const data = {
             listId : localStorage.getItem('listId'),
-            userId : id
+            userId : id,
+            userName : username,
+            userImage : image
         }
         fetch(`${listsUrl}/lists/addMemberToList`,{
           headers: {
@@ -133,7 +136,7 @@ class AddMemberToList extends Component {
                 (this.state.users.length!==0) ? 
                   this.state.users.map(user => (
                     <div style={{display:'flex'}} className="user-box" key={user.id}
-                    onClick = {() => this.addConversation(user.id)}>
+                    onClick = {() => this.addConversation(user.id,)}>
                       <div class = "profile-image">
                           <img className="float-left img-thumbnail" id="pic" 
                           src = {user.image} alt="Responsive image"></img>

@@ -106,13 +106,7 @@ router.get('/UserSubscribedLists', function(req, res){
     kafka.make_request("lists", {type: "getUserSubscribedLists", message: req.query.userId},
         function(err, result) {
             if(result){
-                let lists = result.lists.map(list => {
-                    return {
-                        listId: list.listId,
-                        listName: list.listName
-                    }
-                });
-                res.status(200).json({success: true, lists : lists});
+                res.status(200).json({success: true, lists : result});
             }else{
                 res.status(err.statusCode).json(err.info);
             }
@@ -126,13 +120,7 @@ router.get('/UserMemberLists', function(req, res){
     kafka.make_request("lists", {type: "getUserMemberLists", message: req.query.userId},
         function(err, result) {
             if(result){
-                let lists = result.lists.map(list => {
-                    return {
-                        listId: list.listId,
-                        listName: list.listName
-                    }
-                });
-                res.status(200).json({success: true, lists : lists});
+                res.status(200).json({success: true, lists : result});
             }else{
                 res.status(err.statusCode).json(err.info);
             }
@@ -146,13 +134,7 @@ router.get('/ListMembers', function(req, res){
     kafka.make_request("lists", {type: "getListMembers", message: req.query.listId},
         function(err, result) {
             if(result){
-                let members = result.lists.listMembers.map(listMember => {
-                    return {
-                        listMemberId: listMember.memberId,
-                        listMemberName: listMember.memberName
-                    }
-                });
-                res.status(200).json({success: true, members : members});
+                res.status(200).json({success: true, members : result.listMembers});
             }else{
                 res.status(err.statusCode).json(err.info);
             }
@@ -166,13 +148,7 @@ router.get('/ListSubscribers', function(req, res){
     kafka.make_request("lists", {type: "getListSubscribers", message: req.query.listId},
         function(err, result) {
             if(result){
-                let subscribers = result.lists.listSubscribers.map(listSubscriber => {
-                    return {
-                        listSubscriberId: listSubscriber.subscriberId,
-                        listSubscriberName: listSubscriber.subscriberName
-                    }
-                });
-                res.status(200).json({success: true, subscribers : subscribers});
+                res.status(200).json({success: true, subscribers : result.listSubscribers});
             }else{
                 res.status(err.statusCode).json(err.info);
             }

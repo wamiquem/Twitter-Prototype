@@ -35,6 +35,7 @@ queries.addMemberToList = (list, successcb, failurecb) => {
         let newMember = {
             memberId: list.userId,
             memberName : list.userName,
+            memberImage : list.userImage
         };
         listResult.listMembers.push(newMember);
         listResult.save()
@@ -121,7 +122,6 @@ queries.getUserMemberLists = (userId, successcb, failurecb) => {
 queries.getListMembers = (listId, successcb, failurecb) => {
     console.log("Inside Get List Members.");
     Lists.find({listId : listId})
-    .select('listMembers')
     .then(result => successcb(result))
     .catch(err => failurecb(err))
 }
@@ -129,7 +129,6 @@ queries.getListMembers = (listId, successcb, failurecb) => {
 queries.getListSubscribers = (listId, successcb, failurecb) => {
     console.log("Inside Get List Subscribers.");
     Lists.find({listId : listId})
-    .select('listSubscribers')
     .then(result => successcb(result))
     .catch(err => failurecb(err))
 }
