@@ -115,7 +115,7 @@ class Signup extends Component {
                                         <label htmlFor="lname">Last name</label>
                                     </div>
                                     <div className="md-form">
-                                        <input type="text" id="email" name="email" className="form-control validate"
+                                        <input type="email" id="email" name="email" className="form-control validate"
                                         onChange = {this.changeHandler} required/>
                                         <label htmlFor="email">Email</label>
                                     </div>
