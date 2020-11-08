@@ -18,7 +18,6 @@ export default class HyperText extends Component {
                     {token}{maybeSpace}
                 </a>
             )
-        // } else if (token.match(/^#\:\//)){
         } else if (token.startsWith("#")){
             return (
                 <Link
@@ -28,15 +27,15 @@ export default class HyperText extends Component {
                 </Link>
               );
         } 
-        // else if (token.startsWith("@")){
-        //     return (
-        //         <Link
-        //           key={index}
-        //           to={`/user/${token}`}>
-        //           {token}{maybeSpace}
-        //         </Link>
-        //       );
-        // } 
+        else if (token.startsWith("@")){
+            return (
+                <Link
+                  key={index}
+                  to={`/user/${token}`}>
+                  {token}{maybeSpace}
+                </Link>
+              );
+        } 
         else {
             return token + maybeSpace;
           }
